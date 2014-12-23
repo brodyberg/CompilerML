@@ -6,41 +6,26 @@
 open ChapterOne
 open Straightline
 
-//let x = foo() // yes
-//let x = Straightline.foo() // yes
-//let x = ChapterOne.Straightline.foo() // yes
-
-let x = Id("foo")
-//let x = AssignmentStatement(Id("foo"), Expression(NumberExpression(5)))
-let x = AssignmentStatement(Id("foo"), NumberExpression(5))
-
-
-
-let x = Plus
-
-// we can see Id & Binop, but not Statement or Expression
-let Expression
-
 let prog = 
     CompoundStatement(
         AssignmentStatement(
-            Id("a"), 
+            "a", 
             OperatorExpression(
                 NumberExpression 5,
                 Plus,
                 NumberExpression 3)),
         CompoundStatement(
             AssignmentStatement(
-                Id("b"),
+                "b",
                 EseqExpression(
-                    PrintStatement [IdExpression(Id("a"));
+                    PrintStatement [IdExpression "a";
                                     OperatorExpression(
-                                        IdExpression(Id("a")), 
+                                        IdExpression "a", 
                                         Minus,
                                         NumberExpression 1);],
                     OperatorExpression(
                         NumberExpression 10,
                         Times,
-                        IdExpression(Id("a"))))),
-            PrintStatement [IdExpression(Id("b")) ]))
+                        IdExpression "a"))),
+            PrintStatement [IdExpression "b" ]))
 
