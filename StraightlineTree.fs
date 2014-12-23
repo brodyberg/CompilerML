@@ -3,9 +3,7 @@ namespace ChapterOne
 // Appel pg. 9
 module Straightline = 
 
-    let foo () = 1
-    
-    type Id = Id of string
+    type Id = string
     type Binop =
         | Plus
         | Minus
