@@ -29,28 +29,77 @@ let prog =
                         IdExpression "a"))),
             PrintStatement [IdExpression "b"]))
 
+let p3 = IdExpression "a"
+
+let p4 =
+    OperatorExpression(
+        IdExpression "a", 
+        Minus,
+        NumberExpression 1)
+
+let p5 =
+    PrintStatement [OperatorExpression(
+                        IdExpression "a", 
+                        Minus,
+                        NumberExpression 1);]
+
+let p6 =
+    PrintStatement [IdExpression "a";
+                    IdExpression "b"]
+
+let p6a =
+    PrintStatement [IdExpression "a";
+                    IdExpression "b";
+                    IdExpression "c"]
+
+let p2 = 
+    PrintStatement [IdExpression "a";
+                    OperatorExpression(
+                        IdExpression "a", 
+                        Minus,
+                        NumberExpression 1);]
+
 let rec visitStatement (statement:Statement) (acc:string list) =
     match statement with
     | CompoundStatement(left,right) -> 
-        (visitStatement left acc) @ (visitStatement right acc) @ "CompoundStatement" :: acc
+        "CompoundStatement(\n" :: 
+        (visitStatement left acc) @ 
+        (visitStatement right acc) @ 
+        ")" :: acc
     | AssignmentStatement(id,expression) -> 
-        (visitId id acc) @ (visitExpression expression acc) @ "AssignmentStatement" :: acc
+        "AssignmentStatement(" ::
+        id :: 
+        (visitExpression expression acc) @ 
+        ")" :: acc
     | PrintStatement(expressionList) -> 
-        "PrintStatement" :: 
-        (expressionList
-        |> List.fold (fun acc expression -> 
-            (visitExpression expression acc) @ acc)
-            acc)
+        let start =     
+            "PrintStatement(\n" :: 
+            (expressionList
+            |> List.fold (fun acc2 expression -> 
+                printfn "expression: %A" expression
+                acc2 @ (visitExpression expression acc2))
+                [])
+        start @ ")" :: acc        
 and visitExpression (expression:Expression) (acc:string list) = 
     match expression with
     | IdExpression(id) -> 
-        (visitId id acc) @ acc
+        printfn "id: %s" id
+        "IdExpression(" :: id :: ")" :: acc
+//        (visitId id acc) @ 
+//        ")" :: acc
     | NumberExpression(number) -> 
         (visitNumber number acc) @ acc
     | OperatorExpression(left,binop,right) -> 
-        (visitExpression left acc) @ (visitBinop binop acc) @ (visitExpression right acc) @ acc
+        "OperatorExpression(" :: 
+        (visitExpression left acc) @ 
+        (visitBinop binop acc) @ 
+        (visitExpression right acc) @ 
+        ")" :: acc
     | EseqExpression(statement,expression) ->
-        (visitStatement statement acc) @ (visitExpression expression acc) @ acc
+        "EseqExpression(\n" ::
+        (visitStatement statement acc) @ 
+        (visitExpression expression acc) @ 
+        ")" :: acc
 and visitBinop binop (acc:string list) = 
     match binop with
     | Plus -> "Plus" :: acc
@@ -58,7 +107,21 @@ and visitBinop binop (acc:string list) =
     | Times -> "Times" :: acc
     | Div -> "Div" :: acc
 and visitNumber number (acc:string list) = (number.ToString()) :: acc
-and visitId name (acc:string list) = name :: acc
+//and visitId name (acc:string list) = name :: acc
+
+visitStatement prog []
+visitStatement p2 []
+|> List.iter (fun item -> printf "%s" item) 
+
+visitExpression p3 []
+visitExpression p4 []
+visitStatement p5 []
+visitStatement p6 []
+|> List.iter (fun item -> printf "%s" item) 
+
+visitStatement p6a []
+|> List.iter (fun item -> printf "%s" item) 
+
 
 // Write (maxargs: Statement -> int) that tells the maximum 
 // number of arguments of any print statement within any sub
