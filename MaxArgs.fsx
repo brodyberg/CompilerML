@@ -29,34 +29,9 @@ let prog =
                         IdExpression "a"))),
             PrintStatement [IdExpression "b"]))
 
-// What do we return when a branch has no PrintStatement?
-// How do we collect a value when we are branching?
-// pass around list of PrintStatement argument counts
-// only ever pass back max(PrintStatement argument count list) 
-
-// that's how we do it, the mutual recursion across statement
-// and/or expression...
-//
-//"foo" :: []
-//
-//"foo" :: "bar" :: []
-
-//[] |> :: "foo"
-//
-//[] |> "foo" ::
-//
-//"foo" :: ([])
-
-["foo"] @ []
-
 let rec visitStatement (statement:Statement) (acc:string list) =
     match statement with
     | CompoundStatement(left,right) -> 
-//        let x = visitStatement left acc
-//        let y = visitStatement right acc
-//        x @ y @ "CompoundStatement" :: acc
-//
-//
         (visitStatement left acc) @ (visitStatement right acc) @ "CompoundStatement" :: acc
     | AssignmentStatement(id,expression) -> 
         (visitId id acc) @ (visitExpression expression acc) @ "AssignmentStatement" :: acc
@@ -82,39 +57,8 @@ and visitBinop binop (acc:string list) =
     | Minus -> "Minus" :: acc
     | Times -> "Times" :: acc
     | Div -> "Div" :: acc
-and visitNumber number (acc:string list) =
-    (number.ToString()) :: acc
+and visitNumber number (acc:string list) = (number.ToString()) :: acc
 and visitId name (acc:string list) = name :: acc
-
-//let rec visitEverything (statement:Statement) (acc:string list) =
-//    match statement with
-//    | CompoundStatement(left,right) -> 
-//        visitEverything(left,acc) :: visitEverything(right,acc) :: "CompoundStatement" :: acc
-//    | AssignmentStatement(_,expression) -> 
-//        visitEverything(expression,acc) :: "AssignmentStatement" :: acc
-//    | 
-//
-//
-//
-//
-//let maxargs (statement:Statement) = 
-//    match statement with
-//    | PrintStatement(args) -> 
-//        args.Length 
-//        for s in args -> 
-//            maxargs(s)
-//    | CompoundStatement(statementLeft, statementRight) -> 
-//        maxargs(statementLeft)
-//        maxargs(statementRight)
-//    | _ -> 
-
-
-// do a (recursive?) match through the structure
-// find a print and then count args there?
-
-// loop through
-// find print statement, find length of list of arguments
-
 
 // Write (maxargs: Statement -> int) that tells the maximum 
 // number of arguments of any print statement within any sub
