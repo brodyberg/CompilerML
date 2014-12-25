@@ -29,14 +29,6 @@ let prog =
                         IdExpression "a"))),
             PrintStatement [IdExpression "b"]))
 
-let p3 = IdExpression "a"
-
-let p4 =
-    OperatorExpression(
-        IdExpression "a", 
-        Minus,
-        NumberExpression 1)
-
 let p5 =
     PrintStatement [OperatorExpression(
                         IdExpression "a", 
@@ -59,115 +51,92 @@ let p2 =
                         Minus,
                         NumberExpression 1);]
 
-let rec visitStatement (statement:Statement) (acc:string list) =
-    printfn "0"
+let p4 = 
+    CompoundStatement(p5,p6)
+
+let p4a = 
+    CompoundStatement(p6a,p6)    
+
+let rec visitStatement (statement:Statement) (acc:int list) =
     match statement with
     | CompoundStatement(left,right) -> 
-        printfn "1"
-        "CompoundStatement(\n" :: 
+//        "CompoundStatement(" :: 
         (visitStatement left acc) @ 
         (visitStatement right acc) @ 
-        ")" :: acc
+        acc
+//        ")" :: acc
     | AssignmentStatement(id,expression) -> 
-        printfn "2"
-        "AssignmentStatement(" ::
-        id :: 
+//        "AssignmentStatement(" ::
+//        id :: 
+//        " " ::
         (visitExpression expression acc) @ 
-        ")" :: acc
+        acc
+//        ")" :: acc
     | PrintStatement(expressionList) -> 
-        printfn "3"
-//        let start =     
-            // we're accumulating something
-            // and we're walking something
-            // make sure we're doing the right one at the
-            // right time
-//        let newThings =     
-//            expressionList
-//            |> List.map (fun expression ->
-//                visitExpression expression acc)
-
-        let foo =
+        let printedItems =
             expressionList
             |> List.fold (fun expressionItems (item:Expression) ->
-                expressionItems @ (visitExpression item []) []
-//                (visitExpression item []) @ expressionItems) []
-            
-        foo @ acc
-
-//        "PrintStatement(\n" :: newThings @ ")" :: acc
-            
-//            
-//            (expressionList
-//            |> List.fold (fun acc2 expression -> 
-//                printfn "expression: %A" expression
-//                acc2 @ (visitExpression expression acc2))
-////                acc)
-//        start @ ")" :: acc        
-and visitExpression (expression:Expression) (acc:string list) = 
-    printfn "4"
+                expressionItems @ (visitExpression item [])) []
+          
+        printedItems @ expressionList.Length :: acc
+          
+//        "PrintStatement(" :: printedItems @ ")" :: acc
+and visitExpression (expression:Expression) (acc:int list) = 
     match expression with
-    | IdExpression(id) -> 
-        printfn "5"
-        printfn "id: %s inList: %A" id acc
-
-        let item = sprintf "IdExpression(%s)" id
-
-//        let returnList = "IdExpression(" :: id :: ")" :: acc
-
-        let returnList = item :: acc
-
-        printfn "returnList: %A\n" returnList
-
-        returnList
-//        (visitId id acc) @ 
-//        ")" :: acc
-    | NumberExpression(number) -> 
-        printfn "6"
-        (visitNumber number acc) @ acc
+    | IdExpression(id) -> acc
+//        (sprintf "IdExpression(%s)" id) :: acc
+    | NumberExpression(number) -> acc
+//        (visitNumber number acc) @ acc
     | OperatorExpression(left,binop,right) -> 
-        printfn "7"
-        "OperatorExpression(" :: 
+//        "OperatorExpression(" :: 
         (visitExpression left acc) @ 
         (visitBinop binop acc) @ 
         (visitExpression right acc) @ 
-        ")" :: acc
+        acc
+//        ")" :: acc
     | EseqExpression(statement,expression) ->
-        printfn "8"
-        "EseqExpression(\n" ::
+//        "EseqExpression(" ::
         (visitStatement statement acc) @ 
         (visitExpression expression acc) @ 
-        ")" :: acc
-and visitBinop binop (acc:string list) = 
-    printfn "9"
+        acc
+//        ")" :: acc
+and visitBinop binop (acc:int list) = 
     match binop with
-    | Plus -> "Plus" :: acc
-    | Minus -> "Minus" :: acc
-    | Times -> "Times" :: acc
-    | Div -> "Div" :: acc
-and visitNumber number (acc:string list) = 
-    printfn "10"    
-    (number.ToString()) :: acc
-//and visitId name (acc:string list) = name :: acc
+    | Plus -> acc
+//        "Plus" :: acc
+    | Minus -> acc  
+//"Minus" :: acc
+    | Times -> acc
+//"Times" :: acc
+    | Div -> acc
+//"Div" :: acc
+and visitNumber number (acc:int list) = acc
+//    " " + (number.ToString()) + " " :: acc
 
-visitStatement prog []
-visitStatement p2 []
-|> List.iter (fun item -> printf "%s" item) 
+let maxargs (statement:Statement) = 
+    let printParamCounts = visitStatement statement []
 
-visitExpression p3 []
-visitExpression p4 []
-visitStatement p5 []
-visitStatement p6 []
-|> List.iter (fun item -> printf "%s" item) 
+    printParamCounts
+    |> Seq.iter (fun item -> printfn "count: %d" item)
 
-visitStatement p6a []
-|> List.iter (fun item -> printf "%s" item) 
+    List.max printParamCounts
 
-//System.String.Join
+(maxargs prog) = 2
+(maxargs p5) = 1
+(maxargs p6) = 2
+(maxargs p6a) = 3
+(maxargs p2) = 2
+(maxargs p4) = 2
+(maxargs p4a) = 3
+
+
+
 
 // Write (maxargs: Statement -> int) that tells the maximum 
 // number of arguments of any print statement within any sub
 // expression of a given statement.
 // For example: maxargs(prog) is 2
+
 
 // No side-effects so: 
 // Do not use reference variables, arrays or assignment expressions 
