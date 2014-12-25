@@ -57,69 +57,48 @@ let p4 =
 let p4a = 
     CompoundStatement(p6a,p6)    
 
-let rec visitStatement (statement:Statement) (acc:int list) =
-    match statement with
-    | CompoundStatement(left,right) -> 
-//        "CompoundStatement(" :: 
-        (visitStatement left acc) @ 
-        (visitStatement right acc) @ 
-        acc
-//        ")" :: acc
-    | AssignmentStatement(id,expression) -> 
-//        "AssignmentStatement(" ::
-//        id :: 
-//        " " ::
-        (visitExpression expression acc) @ 
-        acc
-//        ")" :: acc
-    | PrintStatement(expressionList) -> 
-        let printedItems =
-            expressionList
-            |> List.fold (fun expressionItems (item:Expression) ->
-                expressionItems @ (visitExpression item [])) []
-          
-        printedItems @ expressionList.Length :: acc
-          
-//        "PrintStatement(" :: printedItems @ ")" :: acc
-and visitExpression (expression:Expression) (acc:int list) = 
-    match expression with
-    | IdExpression(id) -> acc
-//        (sprintf "IdExpression(%s)" id) :: acc
-    | NumberExpression(number) -> acc
-//        (visitNumber number acc) @ acc
-    | OperatorExpression(left,binop,right) -> 
-//        "OperatorExpression(" :: 
-        (visitExpression left acc) @ 
-        (visitBinop binop acc) @ 
-        (visitExpression right acc) @ 
-        acc
-//        ")" :: acc
-    | EseqExpression(statement,expression) ->
-//        "EseqExpression(" ::
-        (visitStatement statement acc) @ 
-        (visitExpression expression acc) @ 
-        acc
-//        ")" :: acc
-and visitBinop binop (acc:int list) = 
-    match binop with
-    | Plus -> acc
-//        "Plus" :: acc
-    | Minus -> acc  
-//"Minus" :: acc
-    | Times -> acc
-//"Times" :: acc
-    | Div -> acc
-//"Div" :: acc
-and visitNumber number (acc:int list) = acc
-//    " " + (number.ToString()) + " " :: acc
-
+// Write (maxargs: Statement -> int) that tells the maximum 
+// number of arguments of any print statement within any sub
+// expression of a given statement.
+// For example: maxargs(prog) is 2
 let maxargs (statement:Statement) = 
-    let printParamCounts = visitStatement statement []
+    let rec visitStatement (statement:Statement) (acc:int list) =
+        match statement with
+        | CompoundStatement(left,right) -> 
+            (visitStatement left acc) @ 
+            (visitStatement right acc) @ 
+            acc
+        | AssignmentStatement(id,expression) -> 
+            (visitExpression expression acc) @ 
+            acc
+        | PrintStatement(expressionList) -> 
+            let printedItems =
+                expressionList
+                |> List.fold (fun expressionItems (item:Expression) ->
+                    expressionItems @ (visitExpression item [])) []
+            printedItems @ expressionList.Length :: acc
+    and visitExpression (expression:Expression) (acc:int list) = 
+        match expression with
+        | IdExpression(id) -> acc
+        | NumberExpression(number) -> acc
+        | OperatorExpression(left,binop,right) -> 
+            (visitExpression left acc) @ 
+            (visitBinop binop acc) @ 
+            (visitExpression right acc) @ 
+            acc
+        | EseqExpression(statement,expression) ->
+            (visitStatement statement acc) @ 
+            (visitExpression expression acc) @ 
+            acc
+    and visitBinop binop (acc:int list) = 
+        match binop with
+        | Plus -> acc
+        | Minus -> acc  
+        | Times -> acc
+        | Div -> acc
+    and visitNumber number (acc:int list) = acc
 
-    printParamCounts
-    |> Seq.iter (fun item -> printfn "count: %d" item)
-
-    List.max printParamCounts
+    List.max (visitStatement statement [])
 
 (maxargs prog) = 2
 (maxargs p5) = 1
@@ -128,14 +107,6 @@ let maxargs (statement:Statement) =
 (maxargs p2) = 2
 (maxargs p4) = 2
 (maxargs p4a) = 3
-
-
-
-
-// Write (maxargs: Statement -> int) that tells the maximum 
-// number of arguments of any print statement within any sub
-// expression of a given statement.
-// For example: maxargs(prog) is 2
 
 
 // No side-effects so: 
