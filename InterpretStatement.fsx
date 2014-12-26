@@ -29,4 +29,21 @@ let prog =
                         IdExpression "a"))),
             PrintStatement [IdExpression "b"]))
 
+// mutually recursive: 
+// interpStm(stm * table) -> table
+// interpExp(exp * table) -> int * table
+// update(table * id * int) -> table
+// lookup(table * id) -> int // searches down the list
+
+5 :: []
+
+let update table id value = (id,value) :: table
+let lookup (table:((string*int) list)) (id:string) = List.find (fun (pair:string * int) -> fst pair = id)
+
+let table = update [] "c" 6
+lookup table "c"
+
+
+
+
 let interp (statement:Statement) = 0
