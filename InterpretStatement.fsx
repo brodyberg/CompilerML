@@ -35,14 +35,16 @@ let prog =
 // update(table * id * int) -> table
 // lookup(table * id) -> int // searches down the list
 
-5 :: []
-
 let update table id value = (id,value) :: table
-let lookup (table:((string*int) list)) (id:string) = List.find (fun (pair:string * int) -> fst pair = id)
+let lookup (table:((string*int) list)) (id:string) = 
+    snd (List.find (fun (pair:string * int) -> fst pair = id) table)
 
-let table = update [] "c" 6
-lookup table "c"
-
+// Note: case-sensitive
+let table = update [] "C" 6
+lookup table "C"
+let table' = update table "c" 7
+lookup table' "c"
+lookup table "C"
 
 
 
