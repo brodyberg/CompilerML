@@ -61,5 +61,6 @@
     <None Include="packages.config" />
     <None Include="InstallationDummyFile.txt" />
     <None Include="Tiger.fsp" />
+    <None Include="TigerLexer.fsl" />
   </ItemGroup>
 </Project>

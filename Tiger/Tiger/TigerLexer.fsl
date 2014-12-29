@@ -1,0 +1,18 @@
+﻿{   
+// header: any valid F# can appear here.   
+open Lexing   
+}   
+ 
+// regex macros   
+let char        = ['a'-'z' 'A'-'Z']   
+let digit       = ['0'-'9']   
+let int         = '-'?digit+   
+let float       = '-'?digit+ '.' digit+   
+let whitespace  = [' ' '\t']   
+let newline     = "\n\r" | '\n' | '\r'  
+ 
+// rules   
+rule tokenize = parse   
+| whitespace    { tokenize lexbuf }   
+| newline       { lexbuf.EndPos <- lexbuf.EndPos.NextLine; tokenize lexbuf; }   
+| eof           { () }
