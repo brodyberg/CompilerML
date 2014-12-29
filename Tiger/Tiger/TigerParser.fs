@@ -6,7 +6,7 @@ open Microsoft.FSharp.Text.Parsing.ParseHelpers
 
 open Tiger
 
-# 9 "../../../Tiger/Tiger.fs"
+# 9 "TigerParser.fs"
 // This type is the type of tokens accepted by the parser
 type token = 
   | EOF
@@ -81,7 +81,7 @@ let _fsyacc_reductionSymbolCounts = [|1us; 0us; |]
 let _fsyacc_productionToNonTerminalTable = [|0us; 1us; |]
 let _fsyacc_immediateActions = [|65535us; 49152us; |]
 let _fsyacc_reductions ()  =    [| 
-# 84 "../../../Tiger/Tiger.fs"
+# 84 "TigerParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : string)) in
             Microsoft.FSharp.Core.Operators.box
@@ -90,7 +90,7 @@ let _fsyacc_reductions ()  =    [|
                       raise (Microsoft.FSharp.Text.Parsing.Accept(Microsoft.FSharp.Core.Operators.box _1))
                    )
                  : '_startstart));
-# 93 "../../../Tiger/Tiger.fs"
+# 93 "TigerParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             Microsoft.FSharp.Core.Operators.box
                 (
@@ -101,7 +101,7 @@ let _fsyacc_reductions ()  =    [|
 # 17 "../../../Tiger/Tiger.fsp"
                  : string));
 |]
-# 104 "../../../Tiger/Tiger.fs"
+# 104 "TigerParser.fs"
 let tables () : Microsoft.FSharp.Text.Parsing.Tables<_> = 
   { reductions= _fsyacc_reductions ();
     endOfInputTag = _fsyacc_endOfInputTag;
