@@ -55,12 +55,14 @@
     <Compile Include="Component1.fs" />
     <Compile Include="Script.fsx" />
     <Compile Include="Tiger.fs" />
+    <Compile Include="TigerParser.fs" />
+    <Compile Include="TigerLexer.fs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\3.1\Framework\v4.0\Microsoft.FSharp.Targets" />
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="InstallationDummyFile.txt" />
     <None Include="Tiger.fsp" />
-    <None Include="TigerLexer.fsl" />
+    <None Include="Tiger.fsl" />
   </ItemGroup>
 </Project>
