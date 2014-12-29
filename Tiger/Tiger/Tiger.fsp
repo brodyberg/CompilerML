@@ -10,19 +10,22 @@ open Tiger // maybe we open this only for when we invoke the tokenizer
 // http://en.wikibooks.org/wiki/F_Sharp_Programming/Lexing_and_Parsing#Step_2:_Define_the_parser_tokens
 // "A token is any single identifiable element in a grammar"
 
+// Comments
 %token COMMENTSTART COMMENTEND
-// how to organize these?
-// theory: there's no meaning to having multiple %token calls
-// yes, multiple token calls does nothing with respect to how 
-// tokens are organized, it simply adds more to the token 
-// discriminated union generated
-%token SET LBRACKET RBRACKET LPAREN RPAREN COMMA
-%token PLUS MINUS AMPERSAND
+// Operators
+%token SET LBRACKET RBRACKET LPAREN RPAREN COMMA PERIOD COLON SEMICOLON
+// Math operators
+%token PLUS MINUS AND OR
+// Logical operators
 %token EQ LESS GREATER LESSEQUAL GREATEREQUAL
-
-%token FUNCTION TRY IF THEN ELSE FOR TO DO LET TYPE COLON VAR IN NIL ARRAY
-%token SEMICOLON 
-
+// Type specifiers
+%token INT ARRAY TYPE
+// Control flow
+%token IF THEN ELSE FOR TO DO WHILE
+// SCOPE
+%token FUNCTION LET IN
+// Values
+%token NIL
 %token EOF   
  
 // start   
