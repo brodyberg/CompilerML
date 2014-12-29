@@ -1,16 +1,34 @@
 ﻿%{
-open Tiger
+open Tiger // maybe we open this only for when we invoke the tokenizer
+		   // with an actual match? so, like, at that late point, we have
+		   // access to the AST built within Tiger.fs?
+		   // code here goes into the top of TigerParser.fs(!)
 %}
 
 %token <string> ID
+
+// http://en.wikibooks.org/wiki/F_Sharp_Programming/Lexing_and_Parsing#Step_2:_Define_the_parser_tokens
+// "A token is any single identifiable element in a grammar"
+
 %token COMMENTSTART COMMENTEND
+// how to organize these?
+// theory: there's no meaning to having multiple %token calls
+// yes, multiple token calls does nothing with respect to how 
+// tokens are organized, it simply adds more to the token 
+// discriminated union generated
+%token SET LBRACKET RBRACKET LPAREN RPAREN COMMA
+%token PLUS MINUS AMPERSAND
+%token EQ LESS GREATER LESSEQUAL GREATEREQUAL
+
+%token FUNCTION TRY IF THEN ELSE FOR TO DO LET TYPE COLON VAR IN NIL ARRAY
+%token SEMICOLON 
 
 %token EOF   
  
 // start   
 %start start   
 %type <string> start   
- 
+
 %%   
  
 start:   

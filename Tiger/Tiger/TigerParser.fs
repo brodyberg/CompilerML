@@ -4,18 +4,80 @@ open Microsoft.FSharp.Text.Lexing
 open Microsoft.FSharp.Text.Parsing.ParseHelpers
 # 1 "../../../Tiger/Tiger.fsp"
 
-open Tiger
+open Tiger // maybe we open this only for when we invoke the tokenizer
+		   // with an actual match? so, like, at that late point, we have
+		   // access to the AST built within Tiger.fs?
 
-# 9 "TigerParser.fs"
+# 11 "TigerParser.fs"
 // This type is the type of tokens accepted by the parser
 type token = 
   | EOF
+  | SEMICOLON
+  | FUNCTION
+  | TRY
+  | IF
+  | THEN
+  | ELSE
+  | FOR
+  | TO
+  | DO
+  | LET
+  | TYPE
+  | COLON
+  | VAR
+  | IN
+  | NIL
+  | ARRAY
+  | EQ
+  | LESS
+  | GREATER
+  | LESSEQUAL
+  | GREATEREQUAL
+  | PLUS
+  | MINUS
+  | AMPERSAND
+  | SET
+  | LBRACKET
+  | RBRACKET
+  | LPAREN
+  | RPAREN
+  | COMMA
   | COMMENTSTART
   | COMMENTEND
   | ID of (string)
 // This type is used to give symbolic names to token indexes, useful for error messages
 type tokenId = 
     | TOKEN_EOF
+    | TOKEN_SEMICOLON
+    | TOKEN_FUNCTION
+    | TOKEN_TRY
+    | TOKEN_IF
+    | TOKEN_THEN
+    | TOKEN_ELSE
+    | TOKEN_FOR
+    | TOKEN_TO
+    | TOKEN_DO
+    | TOKEN_LET
+    | TOKEN_TYPE
+    | TOKEN_COLON
+    | TOKEN_VAR
+    | TOKEN_IN
+    | TOKEN_NIL
+    | TOKEN_ARRAY
+    | TOKEN_EQ
+    | TOKEN_LESS
+    | TOKEN_GREATER
+    | TOKEN_LESSEQUAL
+    | TOKEN_GREATEREQUAL
+    | TOKEN_PLUS
+    | TOKEN_MINUS
+    | TOKEN_AMPERSAND
+    | TOKEN_SET
+    | TOKEN_LBRACKET
+    | TOKEN_RBRACKET
+    | TOKEN_LPAREN
+    | TOKEN_RPAREN
+    | TOKEN_COMMA
     | TOKEN_COMMENTSTART
     | TOKEN_COMMENTEND
     | TOKEN_ID
@@ -30,19 +92,79 @@ type nonTerminalId =
 let tagOfToken (t:token) = 
   match t with
   | EOF  -> 0 
-  | COMMENTSTART  -> 1 
-  | COMMENTEND  -> 2 
-  | ID _ -> 3 
+  | SEMICOLON  -> 1 
+  | FUNCTION  -> 2 
+  | TRY  -> 3 
+  | IF  -> 4 
+  | THEN  -> 5 
+  | ELSE  -> 6 
+  | FOR  -> 7 
+  | TO  -> 8 
+  | DO  -> 9 
+  | LET  -> 10 
+  | TYPE  -> 11 
+  | COLON  -> 12 
+  | VAR  -> 13 
+  | IN  -> 14 
+  | NIL  -> 15 
+  | ARRAY  -> 16 
+  | EQ  -> 17 
+  | LESS  -> 18 
+  | GREATER  -> 19 
+  | LESSEQUAL  -> 20 
+  | GREATEREQUAL  -> 21 
+  | PLUS  -> 22 
+  | MINUS  -> 23 
+  | AMPERSAND  -> 24 
+  | SET  -> 25 
+  | LBRACKET  -> 26 
+  | RBRACKET  -> 27 
+  | LPAREN  -> 28 
+  | RPAREN  -> 29 
+  | COMMA  -> 30 
+  | COMMENTSTART  -> 31 
+  | COMMENTEND  -> 32 
+  | ID _ -> 33 
 
 // This function maps integers indexes to symbolic token ids
 let tokenTagToTokenId (tokenIdx:int) = 
   match tokenIdx with
   | 0 -> TOKEN_EOF 
-  | 1 -> TOKEN_COMMENTSTART 
-  | 2 -> TOKEN_COMMENTEND 
-  | 3 -> TOKEN_ID 
-  | 6 -> TOKEN_end_of_input
-  | 4 -> TOKEN_error
+  | 1 -> TOKEN_SEMICOLON 
+  | 2 -> TOKEN_FUNCTION 
+  | 3 -> TOKEN_TRY 
+  | 4 -> TOKEN_IF 
+  | 5 -> TOKEN_THEN 
+  | 6 -> TOKEN_ELSE 
+  | 7 -> TOKEN_FOR 
+  | 8 -> TOKEN_TO 
+  | 9 -> TOKEN_DO 
+  | 10 -> TOKEN_LET 
+  | 11 -> TOKEN_TYPE 
+  | 12 -> TOKEN_COLON 
+  | 13 -> TOKEN_VAR 
+  | 14 -> TOKEN_IN 
+  | 15 -> TOKEN_NIL 
+  | 16 -> TOKEN_ARRAY 
+  | 17 -> TOKEN_EQ 
+  | 18 -> TOKEN_LESS 
+  | 19 -> TOKEN_GREATER 
+  | 20 -> TOKEN_LESSEQUAL 
+  | 21 -> TOKEN_GREATEREQUAL 
+  | 22 -> TOKEN_PLUS 
+  | 23 -> TOKEN_MINUS 
+  | 24 -> TOKEN_AMPERSAND 
+  | 25 -> TOKEN_SET 
+  | 26 -> TOKEN_LBRACKET 
+  | 27 -> TOKEN_RBRACKET 
+  | 28 -> TOKEN_LPAREN 
+  | 29 -> TOKEN_RPAREN 
+  | 30 -> TOKEN_COMMA 
+  | 31 -> TOKEN_COMMENTSTART 
+  | 32 -> TOKEN_COMMENTEND 
+  | 33 -> TOKEN_ID 
+  | 36 -> TOKEN_end_of_input
+  | 34 -> TOKEN_error
   | _ -> failwith "tokenTagToTokenId: bad token"
 
 /// This function maps production indexes returned in syntax errors to strings representing the non terminal that would be produced by that production
@@ -52,13 +174,43 @@ let prodIdxToNonTerminal (prodIdx:int) =
     | 1 -> NONTERM_start 
     | _ -> failwith "prodIdxToNonTerminal: bad production index"
 
-let _fsyacc_endOfInputTag = 6 
-let _fsyacc_tagOfErrorTerminal = 4
+let _fsyacc_endOfInputTag = 36 
+let _fsyacc_tagOfErrorTerminal = 34
 
 // This function gets the name of a token as a string
 let token_to_string (t:token) = 
   match t with 
   | EOF  -> "EOF" 
+  | SEMICOLON  -> "SEMICOLON" 
+  | FUNCTION  -> "FUNCTION" 
+  | TRY  -> "TRY" 
+  | IF  -> "IF" 
+  | THEN  -> "THEN" 
+  | ELSE  -> "ELSE" 
+  | FOR  -> "FOR" 
+  | TO  -> "TO" 
+  | DO  -> "DO" 
+  | LET  -> "LET" 
+  | TYPE  -> "TYPE" 
+  | COLON  -> "COLON" 
+  | VAR  -> "VAR" 
+  | IN  -> "IN" 
+  | NIL  -> "NIL" 
+  | ARRAY  -> "ARRAY" 
+  | EQ  -> "EQ" 
+  | LESS  -> "LESS" 
+  | GREATER  -> "GREATER" 
+  | LESSEQUAL  -> "LESSEQUAL" 
+  | GREATEREQUAL  -> "GREATEREQUAL" 
+  | PLUS  -> "PLUS" 
+  | MINUS  -> "MINUS" 
+  | AMPERSAND  -> "AMPERSAND" 
+  | SET  -> "SET" 
+  | LBRACKET  -> "LBRACKET" 
+  | RBRACKET  -> "RBRACKET" 
+  | LPAREN  -> "LPAREN" 
+  | RPAREN  -> "RPAREN" 
+  | COMMA  -> "COMMA" 
   | COMMENTSTART  -> "COMMENTSTART" 
   | COMMENTEND  -> "COMMENTEND" 
   | ID _ -> "ID" 
@@ -67,6 +219,36 @@ let token_to_string (t:token) =
 let _fsyacc_dataOfToken (t:token) = 
   match t with 
   | EOF  -> (null : System.Object) 
+  | SEMICOLON  -> (null : System.Object) 
+  | FUNCTION  -> (null : System.Object) 
+  | TRY  -> (null : System.Object) 
+  | IF  -> (null : System.Object) 
+  | THEN  -> (null : System.Object) 
+  | ELSE  -> (null : System.Object) 
+  | FOR  -> (null : System.Object) 
+  | TO  -> (null : System.Object) 
+  | DO  -> (null : System.Object) 
+  | LET  -> (null : System.Object) 
+  | TYPE  -> (null : System.Object) 
+  | COLON  -> (null : System.Object) 
+  | VAR  -> (null : System.Object) 
+  | IN  -> (null : System.Object) 
+  | NIL  -> (null : System.Object) 
+  | ARRAY  -> (null : System.Object) 
+  | EQ  -> (null : System.Object) 
+  | LESS  -> (null : System.Object) 
+  | GREATER  -> (null : System.Object) 
+  | LESSEQUAL  -> (null : System.Object) 
+  | GREATEREQUAL  -> (null : System.Object) 
+  | PLUS  -> (null : System.Object) 
+  | MINUS  -> (null : System.Object) 
+  | AMPERSAND  -> (null : System.Object) 
+  | SET  -> (null : System.Object) 
+  | LBRACKET  -> (null : System.Object) 
+  | RBRACKET  -> (null : System.Object) 
+  | LPAREN  -> (null : System.Object) 
+  | RPAREN  -> (null : System.Object) 
+  | COMMA  -> (null : System.Object) 
   | COMMENTSTART  -> (null : System.Object) 
   | COMMENTEND  -> (null : System.Object) 
   | ID _fsyacc_x -> Microsoft.FSharp.Core.Operators.box _fsyacc_x 
@@ -81,7 +263,7 @@ let _fsyacc_reductionSymbolCounts = [|1us; 0us; |]
 let _fsyacc_productionToNonTerminalTable = [|0us; 1us; |]
 let _fsyacc_immediateActions = [|65535us; 49152us; |]
 let _fsyacc_reductions ()  =    [| 
-# 84 "TigerParser.fs"
+# 266 "TigerParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : string)) in
             Microsoft.FSharp.Core.Operators.box
@@ -90,18 +272,18 @@ let _fsyacc_reductions ()  =    [|
                       raise (Microsoft.FSharp.Text.Parsing.Accept(Microsoft.FSharp.Core.Operators.box _1))
                    )
                  : '_startstart));
-# 93 "TigerParser.fs"
+# 275 "TigerParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 17 "../../../Tiger/Tiger.fsp"
+# 31 "../../../Tiger/Tiger.fsp"
                                                          "Nothing to see here" 
                    )
-# 17 "../../../Tiger/Tiger.fsp"
+# 31 "../../../Tiger/Tiger.fsp"
                  : string));
 |]
-# 104 "TigerParser.fs"
+# 286 "TigerParser.fs"
 let tables () : Microsoft.FSharp.Text.Parsing.Tables<_> = 
   { reductions= _fsyacc_reductions ();
     endOfInputTag = _fsyacc_endOfInputTag;
@@ -120,7 +302,7 @@ let tables () : Microsoft.FSharp.Text.Parsing.Tables<_> =
                               match parse_error_rich with 
                               | Some f -> f ctxt
                               | None -> parse_error ctxt.Message);
-    numTerminals = 7;
+    numTerminals = 37;
     productionToNonTerminalTable = _fsyacc_productionToNonTerminalTable  }
 let engine lexer lexbuf startState = (tables ()).Interpret(lexer, lexbuf, startState)
 let start lexer lexbuf : string =
