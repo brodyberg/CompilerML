@@ -3,6 +3,8 @@
 open Lexing   
 }   
  
+// The let bindings at the top of the file are used to define 
+// regular expression macros.
 // regex macros   
 let char        = ['a'-'z' 'A'-'Z']   
 let digit       = ['0'-'9']   
@@ -13,6 +15,25 @@ let newline     = "\n\r" | '\n' | '\r'
  
 // rules   
 rule tokenize = parse   
+// A series of rules, each of which have two pieces: 
+// 1) a regular expression, 
+// 2) an expression to evaluate if the regex matches, 
+//    such as returning a token.
+// Text is read from the token stream one character at 
+// a time until it matches a regular expression and 
+// returns a token.
 | whitespace    { tokenize lexbuf }   
+// Notice: 
+//    - The code between the {'s and }'s consists of
+//    plain old F# code. 
+//    - We are returning the same tokens (INT, 
+//    FLOAT, COMMA and EOF) that we defined in TigerParser.fsp
 | newline       { lexbuf.EndPos <- lexbuf.EndPos.NextLine; tokenize lexbuf; }   
+// 'lexeme lexbuf' returns the string our parser matched
+| int           { INT(Int32.Parse(lexeme lexbuf)) }   
+| float         { FLOAT(Double.Parse(lexeme lexbuf)) }   
+| ','           { COMMA }   
+// eof is a special marker used to identify the end of a string buffer input.
 | eof           { () }
+// The tokenize function will be converted into function which 
+// has a return type of SqlParser.token
