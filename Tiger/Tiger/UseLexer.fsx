@@ -4,13 +4,14 @@
 
 open System.IO
 open Microsoft.FSharp.Text.Lexing
-
-let tigerQueens = File.ReadAllText "/Users/brodyberg/code/CompilerML/Tiger/Tiger/Examples/queens.tig"
-
-let lexbuf = LexBuffer<_>.FromString tigerQueens
-
+#load "TigerAST.fs" 
 #load "TigerLexer.fs"
 
-while not lexbuf.IsPastEndOfStream do  
-    printfn "%A" (TigerLexer.tokenize lexbuf)
+let tokenize (lexbuf:LexBuffer<char>) = 
+    while not lexbuf.IsPastEndOfStream do          
+        printfn "%A" (TigerLexer.tokenize lexbuf)
+
+File.ReadAllText "/Users/brodyberg/code/CompilerML/Tiger/Tiger/Examples/queens.tig"
+|> LexBuffer<_>.FromString
+|> tokenize
  
