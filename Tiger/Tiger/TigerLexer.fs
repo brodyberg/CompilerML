@@ -1,10 +1,11 @@
 # 1 "Tiger.fsl"
     
 // header: any valid F# can appear here.   
-open Lexing   
+open System
+open Microsoft.FSharp.Text.Lexing   
 open TigerAST
 
-# 7 "TigerLexer.fs"
+# 8 "TigerLexer.fs"
 let trans : uint16[] array = 
     [| 
    (* State 0 *)
@@ -41,37 +42,37 @@ and tokenize  (lexbuf : Microsoft.FSharp.Text.Lexing.LexBuffer<_>) = _fslex_toke
 and _fslex_tokenize  _fslex_state lexbuf =
   match _fslex_tables.Interpret(_fslex_state,lexbuf) with
   | 0 -> ( 
-# 26 "Tiger.fsl"
+# 27 "Tiger.fsl"
                                  tokenize lexbuf 
-# 46 "TigerLexer.fs"
+# 47 "TigerLexer.fs"
           )
   | 1 -> ( 
-# 32 "Tiger.fsl"
+# 33 "Tiger.fsl"
                                  lexbuf.EndPos <- lexbuf.EndPos.NextLine; tokenize lexbuf; 
-# 51 "TigerLexer.fs"
+# 52 "TigerLexer.fs"
           )
   | 2 -> ( 
-# 34 "Tiger.fsl"
-                                 INT(Int32.Parse(lexeme lexbuf)) 
-# 56 "TigerLexer.fs"
+# 35 "Tiger.fsl"
+                                 TigerAST.Int(Int32.Parse(lexeme lexbuf)) 
+# 57 "TigerLexer.fs"
           )
   | 3 -> ( 
-# 35 "Tiger.fsl"
-                                 FLOAT(Double.Parse(lexeme lexbuf)) 
-# 61 "TigerLexer.fs"
+# 36 "Tiger.fsl"
+                                 TigerAST.Float(Double.Parse(lexeme lexbuf)) 
+# 62 "TigerLexer.fs"
           )
   | 4 -> ( 
-# 36 "Tiger.fsl"
+# 37 "Tiger.fsl"
                                  COMMA 
-# 66 "TigerLexer.fs"
+# 67 "TigerLexer.fs"
           )
   | 5 -> ( 
-# 38 "Tiger.fsl"
+# 39 "Tiger.fsl"
                                  () 
-# 71 "TigerLexer.fs"
+# 72 "TigerLexer.fs"
           )
   | _ -> failwith "tokenize"
 
-# 41 "Tiger.fsl"
+# 42 "Tiger.fsl"
 
 # 3000000 "TigerLexer.fs"

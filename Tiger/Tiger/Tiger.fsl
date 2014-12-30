@@ -1,5 +1,6 @@
 ﻿{   
 // header: any valid F# can appear here.   
+open System
 open Lexing   
 open TigerAST
 }   
@@ -31,8 +32,8 @@ rule tokenize = parse
 //    FLOAT, COMMA and EOF) that we defined in TigerParser.fsp
 | newline       { lexbuf.EndPos <- lexbuf.EndPos.NextLine; tokenize lexbuf; }   
 // 'lexeme lexbuf' returns the string our parser matched
-| int           { INT(Int32.Parse(lexeme lexbuf)) }   
-| float         { FLOAT(Double.Parse(lexeme lexbuf)) }   
+| int           { TigerAST.Int(Int32.Parse(lexeme lexbuf)) }   
+| float         { TigerAST.Float(Double.Parse(lexeme lexbuf)) }   
 | ','           { COMMA }   
 // eof is a special marker used to identify the end of a string buffer input.
 | eof           { () }

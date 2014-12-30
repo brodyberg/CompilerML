@@ -1,12 +1,10 @@
-namespace Tiger
+namespace TigerAST
 
-module AST =
-    
-    type value = 
-        | Int of int
-        | Float of float
-        | String of string
-    
-    type Comment = 
-        | CommentStart
-        | CommentEnd
+type value = 
+    | Int of int
+    | Float of float
+    | String of string
+
+type Comment = 
+    | CommentStart
+    | CommentEnd
