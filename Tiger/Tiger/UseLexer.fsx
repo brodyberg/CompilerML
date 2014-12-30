@@ -27,3 +27,7 @@ let tokenize (lexbuf:LexBuffer<char>) =
 "/"
 |> LexBuffer<_>.FromString
 |> tokenize
+
+"/*"
+|> LexBuffer<_>.FromString
+|> tokenize

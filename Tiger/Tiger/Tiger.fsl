@@ -35,6 +35,10 @@ rule tokenize = parse
 | int           { Int(Int32.Parse(LexBuffer<_>.LexemeString lexbuf)) }   
 | float         { Float(Double.Parse(LexBuffer<_>.LexemeString lexbuf)) }   
 | ','           { TigerAST.Comma }   
+//| "/*"          { TigerAST.CommentStart((LexBuffer<_>.LexemeString lexbuf)) }
+| "/*"          { TigerAST.CommentStart }
+//| "*/"          { TigerAST.CommentEnd(LexBuffer<_>.LexemeString lexbuf) }
+| "*/"          { TigerAST.CommentEnd }
 // eof is a special marker used to identify the end of a string buffer input.
 | eof           { TigerAST.EOF }
 // The tokenize function will be converted into function which 
