@@ -1,10 +1,24 @@
 namespace TigerAST
 
+type Operator = 
+    | Equal
+    | Less
+    | LessEqual
+    | Greater
+    | GreaterEqual
+    | Assign
+    | Plus
+    | Minus
+    | Divide
+    | Multiply
+    | Exponent    
+
 type value = 
     | Int of int
     | Float of float
     | String of string
     | Comma
     | EOF
+    | BinaryOperator of Operator
     | CommentStart //  of int * int // line, column
     | CommentEnd // of int * int // line, column

@@ -24,10 +24,42 @@ let tokenize (lexbuf:LexBuffer<char>) =
 //EOF
 //val it : unit = ()
 
+"+"
+|> LexBuffer<_>.FromString
+|> tokenize
+
+//lexeme: []
+//BinaryOperator Plus
+//lexeme: [+]
+//EOF
+//val it : unit = ()
+
+"*"
+|> LexBuffer<_>.FromString
+|> tokenize
+
+//lexeme: []
+//BinaryOperator Multiply
+//lexeme: [*]
+//EOF
+//val it : unit = ()
+
 "/"
 |> LexBuffer<_>.FromString
 |> tokenize
 
+//lexeme: []
+//BinaryOperator Divide
+//lexeme: [/]
+//EOF
+//val it : unit = ()
+
 "/*"
 |> LexBuffer<_>.FromString
 |> tokenize
+
+//lexeme: []
+//CommentStart
+//lexeme: [/*]
+//EOF
+//val it : unit = ()
