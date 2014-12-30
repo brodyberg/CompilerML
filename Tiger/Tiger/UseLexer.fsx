@@ -7,11 +7,23 @@ open Microsoft.FSharp.Text.Lexing
 #load "TigerAST.fs" 
 #load "TigerLexer.fs"
 
+//File.ReadAllText "/Users/brodyberg/code/CompilerML/Tiger/Tiger/Examples/queens.tig"
+
 let tokenize (lexbuf:LexBuffer<char>) = 
     while not lexbuf.IsPastEndOfStream do          
+        printfn "lexeme: [%s]" (LexBuffer<_>.LexemeString lexbuf)
         printfn "%A" (TigerLexer.tokenize lexbuf)
 
-File.ReadAllText "/Users/brodyberg/code/CompilerML/Tiger/Tiger/Examples/queens.tig"
+","
 |> LexBuffer<_>.FromString
 |> tokenize
  
+//lexbuf: Microsoft.FSharp.Text.Lexing.LexBuffer`1[System.Char]
+//Comma
+//lexbuf: Microsoft.FSharp.Text.Lexing.LexBuffer`1[System.Char]
+//EOF
+//val it : unit = ()
+
+"/"
+|> LexBuffer<_>.FromString
+|> tokenize
