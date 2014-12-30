@@ -1,7 +1,7 @@
 ﻿{   
 // header: any valid F# can appear here.   
 open System
-open Lexing   
+open Microsoft.FSharp.Text.Lexing   
 open TigerAST
 }   
  
@@ -32,10 +32,10 @@ rule tokenize = parse
 //    FLOAT, COMMA and EOF) that we defined in TigerParser.fsp
 | newline       { lexbuf.EndPos <- lexbuf.EndPos.NextLine; tokenize lexbuf; }   
 // 'lexeme lexbuf' returns the string our parser matched
-| int           { TigerAST.Int(Int32.Parse(lexeme lexbuf)) }   
-| float         { TigerAST.Float(Double.Parse(lexeme lexbuf)) }   
-| ','           { COMMA }   
+| int           { Int(Int32.Parse(LexBuffer<_>.LexemeString lexbuf)) }   
+| float         { Float(Double.Parse(LexBuffer<_>.LexemeString lexbuf)) }   
+| ','           { TigerAST.Comma }   
 // eof is a special marker used to identify the end of a string buffer input.
-| eof           { () }
+| eof           { TigerAST.EOF }
 // The tokenize function will be converted into function which 
 // has a return type of SqlParser.token
