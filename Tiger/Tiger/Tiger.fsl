@@ -24,6 +24,24 @@ let ops =
         "*",    TigerAST.Multiply;
         "**",   TigerAST.Exponent; 
     ] |> Map.ofList   
+
+let keywords =   
+    [   
+        "int",     INT;
+        "array",   ARRAY;
+        "type",    TYPE;
+        "if",      IF; 
+        "then",    THEN;
+        "else",    ELSE;
+        "for",     FOR;
+        "to",      TO;
+        "do",      DO; 
+        "while",   WHILE;
+        "function",FUNCTION;
+        "let",     LET; 
+        "in",      IN;
+        "nil",     NIL; 
+    ] |> Map.ofList   
 }   
  
 // The let bindings at the top of the file are used to define 
@@ -37,6 +55,8 @@ let whitespace  = [' ' '\t']
 let newline     = "\n\r" | '\n' | '\r'  
 let comment     = "/*" | "*/"
 let operator    = "=" | "<" | "<=" | ">" | ">=" | ":=" | "+" | "-" | "/" | "*" | "**"
+//let keyword     = "INT" | "ARRAY" | "TYPE" | "IF" | "THEN"| "ELSE" | "FOR" | "TO" | "DO" | "WHILE" | "FUNCTION" | "LET" | "IN" | "NIL"
+let identifier  = char(char|digit|['-' '_' '.'])*
 
 // rules   
 rule tokenize = parse   
@@ -60,6 +80,11 @@ rule tokenize = parse
 | ','           { TigerAST.Comma }   
 | operator      { TigerAST.BinaryOperator(ops.[LexBuffer<_>.LexemeString lexbuf]) }  
 | comment       { comments.[LexBuffer<_>.LexemeString lexbuf] }  
+| identifier    { match keywords.TryFind(LexBuffer<_>.LexemeString lexbuf) with   
+                  | Some(token) -> TigerAST.Keyword(token)
+                  | None -> ID(LexBuffer<_>.LexemeString lexbuf) 
+                } 
+//{ TigerAST.Keyword(keywords.[LexBuffer<_>.LexemeString lexbuf])
 // eof is a special marker used to identify the end of a string buffer input.
 | eof           { TigerAST.EOF }
 // The tokenize function will be converted into function which 

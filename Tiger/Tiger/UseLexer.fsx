@@ -63,3 +63,23 @@ let tokenize (lexbuf:LexBuffer<char>) =
 //lexeme: [/*]
 //EOF
 //val it : unit = ()
+
+"brody"
+|> LexBuffer<_>.FromString
+|> tokenize
+
+//lexeme: []
+//ID "brody"
+//lexeme: [brody]
+//EOF
+//val it : unit = ()
+
+"function"
+|> LexBuffer<_>.FromString
+|> tokenize
+
+//lexeme: []
+//Keyword FUNCTION
+//lexeme: [function]
+//EOF
+//val it : unit = ()

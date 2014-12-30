@@ -13,6 +13,22 @@ type Operator =
     | Multiply
     | Exponent    
 
+type Keyword = 
+    | INT
+    | ARRAY
+    | TYPE
+    | IF
+    | THEN
+    | ELSE
+    | FOR
+    | TO
+    | DO
+    | WHILE
+    | FUNCTION
+    | LET
+    | IN
+    | NIL   
+
 type value = 
     | Int of int
     | Float of float
@@ -22,3 +38,5 @@ type value =
     | BinaryOperator of Operator
     | CommentStart //  of int * int // line, column
     | CommentEnd // of int * int // line, column
+    | Keyword of Keyword 
+    | ID of string
