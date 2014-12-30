@@ -1,7 +1,7 @@
 # 1 "../../../Tiger/Tiger.fsl"
     
 // header: any valid F# can appear here.   
-open Lexing   
+open Microsoft.FSharp.Text.Lexing   
 
 # 6 "TigerLexer.fs"
 let trans : uint16[] array = 
