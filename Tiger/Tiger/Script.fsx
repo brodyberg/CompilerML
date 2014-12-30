@@ -5,22 +5,20 @@
 open System.IO
 open Microsoft.FSharp.Text.Lexing
 
-let x = "foo" 
-
-// warning FS1125: The instantiation of the generic 
-// type 'LexBuffer' is missing and can't be inferred from the arguments or return type of this member. Consider providing a type instantiation when accessing this type, e.g. 'LexBuffer<_>'.
-// val lexbuf : LexBuffer<char>
-
-//let buffer = Lexing.LexBuffer<string>()
-
-//    let b = Lexing.LexBuffer.FromString x
-
-let tigerQueens = File.ReadAllLines "/Users/brodyberg/code/CompilerML/Tiger/Tiger/Examples/queens.tig"
+let tigerQueens = File.ReadAllText "/Users/brodyberg/code/CompilerML/Tiger/Tiger/Examples/queens.tig"
 
 let lexbuf = LexBuffer<_>.FromString tigerQueens
 
-#load "TigerAST.fs" // fixup TigerLexer.fs to get Tiger.fsl to pull right TigerAST
+// THIS file doesn't load TigerAST, but rather the fsl file needs to load it
+
+// #load "TigerAST.fs" // fixup TigerLexer.fs to get Tiger.fsl to pull right TigerAST
+#load "TigerAST.fs"
+// copy into generated lexer: open Microsoft.FSharp.Text.Lexing   
 #load "TigerLexer.fs"
+
+// This signature needs to be in the *.fsl so that it can be built into 
+// the TigerLexer.fs - and then so the call actually works at runtime
+TigerAST.Int(5)
 
 while not lexbuf.IsPastEndOfStream do  
     printfn "%A" (TigerLexer.tokenize lexbuf)
