@@ -1,6 +1,7 @@
 ﻿{   
 // header: any valid F# can appear here.   
 open Lexing   
+open TigerAST
 }   
  
 // The let bindings at the top of the file are used to define 
@@ -8,7 +9,7 @@ open Lexing
 // regex macros   
 let char        = ['a'-'z' 'A'-'Z']   
 let digit       = ['0'-'9']   
-let int         = '-'?digit+   
+let int        = '-'?digit+   
 let float       = '-'?digit+ '.' digit+   
 let whitespace  = [' ' '\t']   
 let newline     = "\n\r" | '\n' | '\r'  

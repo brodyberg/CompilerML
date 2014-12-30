@@ -1,4 +1,5 @@
 ﻿#I "/Users/brodyberg/code/CompilerML/Tiger/packages/FSPowerPack.Core.Community.3.0.0.0/Lib/Net40"
+#I "/Users/brodyberg/code/CompilerML/Tiger/Tiger"
 #r "FSharp.PowerPack.dll"
 
 open System.IO
@@ -18,12 +19,9 @@ let tigerQueens = File.ReadAllLines "/Users/brodyberg/code/CompilerML/Tiger/Tige
 
 let lexbuf = LexBuffer<_>.FromString tigerQueens
 
-// how to open OUR lexer?
-
-#load "/Users/brodyberg/code/CompilerML/Tiger/Tiger/TigerLexer.fs"
+#load "TigerAST.fs" // fixup TigerLexer.fs to get Tiger.fsl to pull right TigerAST
+#load "TigerLexer.fs"
 
 while not lexbuf.IsPastEndOfStream do  
-    printfn "%A" (SqlLexer.tokenize lexbuf)   
+    printfn "%A" (TigerLexer.tokenize lexbuf)
  
-//Console.WriteLine("(press any key)")   
-//Console.ReadKey(true) |> ignore    
