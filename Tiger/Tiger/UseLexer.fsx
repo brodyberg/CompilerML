@@ -26,6 +26,18 @@ theFile |> tokenize
 "#" |> tokenize // this now kills the exception...
 
 "foo \"bar\" baz" |> tokenize
+//ID "foo"
+//FOUND: "bar"
+//StringLiteral "bar"
+//ID "baz"
+//EOF
+
+"foo \"\" baz" |> tokenize
+//ID "foo"
+//FOUND: ""
+//StringLiteral ""
+//ID "baz"
+//EOF
 
 "-4.4" |> tokenize
 " -4.4" |> tokenize

@@ -5,6 +5,7 @@ open Microsoft.FSharp.Text.Lexing
 open TigerAST
 
 exception EndOfFile of string
+exception UnknownItem of string
 
 let ops =   
     [   
@@ -81,7 +82,16 @@ let isPunctuation = "[" | "]" | "(" | ")" | "." | ":" | ";" | ","
 //let stringLiteral = "\""(.) // parse error
 //let stringLiteral = "\""[.] // parse error
 //let stringLiteral = "\""(char | digit | whitespace | int | float | newline | isPunctuation)*
+//let stringLiteral = "\""(char | digit | whitespace | int | float | newline | isPunctuation)*"\"" works
+// let stringLiteral = doubleQuotes(*)doubleQuotes // error: end of file in comment started at (85,32)
+// let stringLiteral = "\""(*)"\"" // holy fuck, (* starts a fucking comment!!!!
+//let stringLiteral = "\""\.*"\"" // unexpected character '\'
+// let stringLiteral = "\"".*"\"" // parse error
+//let stringLiteral = ("\"".)*"\"" // parse error
+//let stringLiteral = ("\"".)*("\"") // parse error
+//let stringLiteral = "\""(char | digit | whitespace | int | float | newline | isPunctuation)+"\""
 let stringLiteral = "\""(char | digit | whitespace | int | float | newline | isPunctuation)*"\""
+
 
 // rules   
 rule tokenize = parse   
@@ -113,14 +123,17 @@ rule tokenize = parse
                 } 
 | stringLiteral { 
 					let x = LexBuffer<_>.LexemeString lexbuf
-					printfn "FOUND: %s" x
-//					TigerAST.StringLiteral(LexBuffer<_>.LexemeString lexbuf) }
-					TigerAST.StringLiteral x }
+					let y = x.Substring(1, x.Length - 2)
+					TigerAST.StringLiteral y }
 | _             { 
-                  let exceptionString = String.Format("Unrecognized character at line {0} column {1}", 
-                      lexbuf.EndPos.Line + 1, 
-                      lexbuf.EndPos.Column) 
-//                  LEXEREXCEPTION (exceptionString) 
+//                  let exceptionString = String.Format("Unrecognized character at line {0} column {1}", 
+  //                    lexbuf.EndPos.Line + 1, 
+    //                  lexbuf.EndPos.Column) 
+					
+				  let item = LexBuffer<_>.LexemeString lexbuf
+
+				  raise UnknownItem(sprintf "Unrecognized character [%s] at line %d column %d" item (lexbuf.EndPos.Line + 1) lexbuf.EndPos.Column)
+//                LEXEREXCEPTION (exceptionString) 
                 } 
 // eof is a special marker used to identify the end of a string buffer input.
 | eof           { TigerAST.EOF }
