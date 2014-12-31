@@ -69,40 +69,7 @@ let newline     = "\n\r" | '\n' | '\r'
 let operator    = "=" | "<" | "<=" | ">" | ">=" | ":=" | "+" | "-" | "/" | "*" | "**"
 let identifier  = char(char|digit|['_' '.'])*
 let isPunctuation = "[" | "]" | "(" | ")" | "." | ":" | ";" | ","
-//let doubleQuotes = "\""
-//let stringLiteral = doubleQuotes(.*)doubleQuotes
-//let stringLiteral = """(.*)"""
-//let stringLiteral = \".*\" // unexpected '\'
-//let stringLiteral = "\"".*"\"" // parse error
-//let stringLiteral = "\""(.*)"\"" // parse error
-//let stringLiteral = """ // unexpected character '/' at line 101(!)
-//let stringLiteral = "\"" // matches "
-//let stringLiteral = "\""[.]* // parse error
-//let stringLiteral = "\"". // parse error
-//let stringLiteral = "\""(.) // parse error
-//let stringLiteral = "\""[.] // parse error
-//let stringLiteral = "\""(char | digit | whitespace | int | float | newline | isPunctuation)*
-//let stringLiteral = "\""(char | digit | whitespace | int | float | newline | isPunctuation)*"\"" works
-// let stringLiteral = doubleQuotes(*)doubleQuotes // error: end of file in comment started at (85,32)
-// let stringLiteral = "\""(*)"\"" // holy fuck, (* starts a fucking comment!!!!
-//let stringLiteral = "\""\.*"\"" // unexpected character '\'
-// let stringLiteral = "\"".*"\"" // parse error
-//let stringLiteral = ("\"".)*"\"" // parse error
-//let stringLiteral = ("\"".)*("\"") // parse error
-//let stringLiteral = "\""(char | digit | whitespace | int | float | newline | isPunctuation)+"\""
 let stringLiteral = "\""(char | digit | whitespace | int | float | newline | isPunctuation)*"\""
-//let stringLiteral = "\""."\"" // parse error
-//let stringLiteral = ("\""(.))"\"" // parse error
-//let stringLiteral = "\""*"\"" // match fail
-//let stringLiteral = "\"".*"\"" // parse error
-// HOLD ON let stringLiteral = "\""[\s\S\d\D]*"\"" // parse error
-//let stringLiteral = "\""[.]*"\"" // parse error
-//let stringLiteral = "\""[a-z A-Z]*"\"" // parse error
-//let stringLiteral = ("\"")[a-z A-Z]*("\"") // parse error
-// let stringLiteral = "\""[a-z A-Z]"\"" // parse error
-//let stringLiteral = '\"'.*'\"' // parse error
-//let stringLiteral = '\"'(.)*'\"' // parse error
-//let stringLiteral = '\"'[\s\S\d\D\w\W]*'\"' // unexpected character \
 
 // rules   
 rule tokenize = parse   
@@ -133,18 +100,16 @@ rule tokenize = parse
                   | None -> ID(LexBuffer<_>.LexemeString lexbuf) 
                 } 
 | stringLiteral { 
-					let x = LexBuffer<_>.LexemeString lexbuf
-					let y = x.Substring(1, x.Length - 2)
-					TigerAST.StringLiteral y }
+					let quotedLiteral = LexBuffer<_>.LexemeString lexbuf
+					let unquotedLiteral = quotedLiteral.Substring(1, quotedLiteral.Length - 2)
+					TigerAST.StringLiteral unquotedLiteral }
 | _             { 
-//                  let exceptionString = String.Format("Unrecognized character at line {0} column {1}", 
-  //                    lexbuf.EndPos.Line + 1, 
-    //                  lexbuf.EndPos.Column) 
-					
 				  let item = LexBuffer<_>.LexemeString lexbuf
 
-				  raise UnknownItem(sprintf "Unrecognized character [%s] at line %d column %d" item (lexbuf.EndPos.Line + 1) lexbuf.EndPos.Column)
-//                LEXEREXCEPTION (exceptionString) 
+				  let errorNotice = sprintf "Unrecognized character [%s] at line %d column %d" item (lexbuf.EndPos.Line + 1) lexbuf.EndPos.Column
+				  printfn "%s" errorNotice
+
+				  raise UnknownItem(errorNotice)
                 } 
 // eof is a special marker used to identify the end of a string buffer input.
 | eof           { TigerAST.EOF }
@@ -163,10 +128,3 @@ and comments level = parse
 | eof   { 
           raise EndOfFile("Found end of file before end of comment.")
         }
-//and stringLiterals literalSoFar = parse
-//| _     { TigerAST.StringLiteral("foo") }
-//| eof   { raise EndOfFile("Found end of file before end of string literal.") } 
-//and stringLiterals literalSoFar = parse
-//| "\""  { TigerAST.StringLiteral(literalSoFar) }
-//| _     { stringLiterals (literalSoFar + (LexBuffer<_>.LexemeString lexbuf)) }
-//| eof   { raise EndOfFile("Found end of file before end of string literal.") } 

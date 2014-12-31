@@ -22,8 +22,12 @@ theFile
 theFile |> tokenize
 
 "foo" |> tokenize
+//ID "foo"
+//EOF
 
-"#" |> tokenize // this now kills the exception...
+"#" |> tokenize 
+//Unrecognized character [#] at line 1 column 1
+//FSI_0004.TigerLexer+UnknownItem: Exception of type 'FSI_0004.TigerLexer+UnknownItem' was thrown.
 
 "foo \"bar\" baz" |> tokenize
 //ID "foo"
