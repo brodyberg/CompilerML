@@ -84,7 +84,6 @@ rule tokenize = parse
                   | Some(token) -> TigerAST.Keyword(token)
                   | None -> ID(LexBuffer<_>.LexemeString lexbuf) 
                 } 
-//{ TigerAST.Keyword(keywords.[LexBuffer<_>.LexemeString lexbuf])
 // eof is a special marker used to identify the end of a string buffer input.
 | eof           { TigerAST.EOF }
 // The tokenize function will be converted into function which 
