@@ -21,6 +21,9 @@ let theFile = File.ReadAllText "/Users/brodyberg/code/CompilerML/Tiger/Tiger/Exa
 theFile
 theFile |> tokenize
 
+"-4.4" |> tokenize
+" -4.4" |> tokenize
+
 "N-1" |> tokenize
 // fail: 
 //ID "N-1"

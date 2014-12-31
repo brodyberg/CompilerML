@@ -60,9 +60,8 @@ let digit       = ['0'-'9']
 let whitespace  = [' ' '\t']   
 // NOTE: if we're going to allow negative numbers (and why not?)
 // the regular expression will require a space to the left
-//let int         = (whitespace('-'+)?)digit+   
 let int         = (whitespace('-'))?digit+   
-let float       = '-'?digit+ '.' digit+   
+let float       = (whitespace('-'))?digit+ '.' digit+   
 let newline     = "\n\r" | '\n' | '\r'  
 let operator    = "=" | "<" | "<=" | ">" | ">=" | ":=" | "+" | "-" | "/" | "*" | "**"
 let identifier  = char(char|digit|['_' '.'])*
