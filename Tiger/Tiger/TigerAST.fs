@@ -41,7 +41,7 @@ type Punctuation =
     | SemiColon
     | Comma
 
-type value = 
+type token = 
     | Int of int
     | Float of float
     | String of string
@@ -51,3 +51,4 @@ type value =
     | Comment of string
     | Keyword of Keyword 
     | ID of string
+    | StringLiteral of string
