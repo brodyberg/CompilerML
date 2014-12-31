@@ -36,7 +36,8 @@ type value =
     | Comma
     | EOF
     | BinaryOperator of Operator
-    | CommentStart //  of int * int // line, column
-    | CommentEnd // of int * int // line, column
+    | Comment of string
+//    | CommentStart //  of int * int // line, column
+//    | CommentEnd // of int * int // line, column
     | Keyword of Keyword 
     | ID of string

@@ -4,11 +4,11 @@ open System
 open Microsoft.FSharp.Text.Lexing   
 open TigerAST
 
-let comments =
-    [
-        "/*", TigerAST.CommentStart;
-        "*/", TigerAST.CommentEnd;
-    ] |> Map.ofList
+//let comments =
+//    [
+//        "/*", TigerAST.CommentStart;
+//       "*/", TigerAST.CommentEnd;
+//    ] |> Map.ofList
 
 let ops =   
     [   
@@ -53,10 +53,11 @@ let int        = '-'?digit+
 let float       = '-'?digit+ '.' digit+   
 let whitespace  = [' ' '\t']   
 let newline     = "\n\r" | '\n' | '\r'  
-let comment     = "/*" | "*/"
+//let comment     = "/*" | "*/"
 let operator    = "=" | "<" | "<=" | ">" | ">=" | ":=" | "+" | "-" | "/" | "*" | "**"
-//let keyword     = "INT" | "ARRAY" | "TYPE" | "IF" | "THEN"| "ELSE" | "FOR" | "TO" | "DO" | "WHILE" | "FUNCTION" | "LET" | "IN" | "NIL"
 let identifier  = char(char|digit|['-' '_' '.'])*
+//let commentStart = "/*"
+//let newThing    = commentStart[.]*commentEnd
 
 // rules   
 rule tokenize = parse   
@@ -79,7 +80,24 @@ rule tokenize = parse
 | float         { Float(Double.Parse(LexBuffer<_>.LexemeString lexbuf)) }   
 | ','           { TigerAST.Comma }   
 | operator      { TigerAST.BinaryOperator(ops.[LexBuffer<_>.LexemeString lexbuf]) }  
-| comment       { comments.[LexBuffer<_>.LexemeString lexbuf] }  
+| "/*"		    { printfn "Comments start"; 
+                  comments 0 lexbuf; 
+                }
+
+
+//| commentStart  { 
+//					let mutable depth = 1
+					
+					
+
+					// set depth to 1
+				  // advance
+                  // if we get another /* increment depth
+                  // if we get a */ we decrement
+                  // if depth is 0 then we're done with the comment
+
+//| comment       { comments.[LexBuffer<_>.LexemeString lexbuf] }  
+//| newThing      { TigerAST.Comment(LexBuffer<_>.LexemeString lexbuf) }
 | identifier    { match keywords.TryFind(LexBuffer<_>.LexemeString lexbuf) with   
                   | Some(token) -> TigerAST.Keyword(token)
                   | None -> ID(LexBuffer<_>.LexemeString lexbuf) 
@@ -88,3 +106,20 @@ rule tokenize = parse
 | eof           { TigerAST.EOF }
 // The tokenize function will be converted into function which 
 // has a return type of SqlParser.token
+and comments level = parse
+| "*/"	{ 
+            printfn "Comments (%d) end" level;
+            if level = 0 
+            then tokenize lexbuf
+            else comments (level-1) lexbuf
+        }
+| "/*"  { 
+            printfn "comments (%d) start" (level+1); 
+            comments (level+1) lexbuf
+        }
+| eof   { 
+          printfn "Comments are not closed"; 
+          exception EndOfFile of string
+          raise EndOfFile("")
+        }
+| _     { comments level lexbuf }
