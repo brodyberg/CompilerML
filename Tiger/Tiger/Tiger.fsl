@@ -75,7 +75,13 @@ let isPunctuation = "[" | "]" | "(" | ")" | "." | ":" | ";" | ","
 //let stringLiteral = "\"".*"\"" // parse error
 //let stringLiteral = "\""(.*)"\"" // parse error
 //let stringLiteral = """ // unexpected character '/' at line 101(!)
-let stringLiteral = "\""
+//let stringLiteral = "\"" // matches "
+//let stringLiteral = "\""[.]* // parse error
+//let stringLiteral = "\"". // parse error
+//let stringLiteral = "\""(.) // parse error
+//let stringLiteral = "\""[.] // parse error
+//let stringLiteral = "\""(char | digit | whitespace | int | float | newline | isPunctuation)*
+let stringLiteral = "\""(char | digit | whitespace | int | float | newline | isPunctuation)*"\""
 
 // rules   
 rule tokenize = parse   

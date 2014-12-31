@@ -21,6 +21,12 @@ let theFile = File.ReadAllText "/Users/brodyberg/code/CompilerML/Tiger/Tiger/Exa
 theFile
 theFile |> tokenize
 
+"foo" |> tokenize
+
+"#" |> tokenize // this now kills the exception...
+
+"foo \"bar\" baz" |> tokenize
+
 "-4.4" |> tokenize
 " -4.4" |> tokenize
 
