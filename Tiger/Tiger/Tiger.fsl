@@ -54,6 +54,7 @@ let keywords =
         "nil",     NIL; 
         "var",     VAR;
         "of",      OF; 
+        "end",     END;
     ] |> Map.ofList   
 }   
  

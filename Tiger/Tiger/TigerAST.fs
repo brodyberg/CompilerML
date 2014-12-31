@@ -32,6 +32,7 @@ type Keyword =
     | NIL   
     | VAR
     | OF
+    | END
 
 type Punctuation = 
     | LBracket
