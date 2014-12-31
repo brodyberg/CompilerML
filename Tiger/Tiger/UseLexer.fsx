@@ -29,6 +29,11 @@ theFile |> tokenize
 //Unrecognized character [#] at line 1 column 1
 //FSI_0004.TigerLexer+UnknownItem: Exception of type 'FSI_0004.TigerLexer+UnknownItem' was thrown.
 
+"\"\n\"" |> tokenize
+//StringLiteral "
+//"
+//EOF
+
 "foo \"bar\" baz" |> tokenize
 //ID "foo"
 //FOUND: "bar"
