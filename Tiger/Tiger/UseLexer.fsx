@@ -83,3 +83,37 @@ let tokenize str =
 //Comments (0) end
 //EOF
 //val it : unit = ()
+
+"function /* foo bar baz */" |> tokenize
+
+//lexeme: []
+//Keyword FUNCTION
+//lexeme: [function]
+//Comments start
+//Comments (0) end
+//EOF
+//val it : unit = ()
+
+"function /* foo bar baz */ array" |> tokenize
+
+//lexeme: []
+//Keyword FUNCTION
+//lexeme: [function]
+//Comments start
+//Comments (0) end
+//Keyword ARRAY
+//lexeme: [array]
+//EOF
+//val it : unit = ()
+
+"/* foo /*bar */baz */ array" |> tokenize
+
+//lexeme: []
+//Comments start
+//comments (1) start
+//Comments (1) end
+//Comments (0) end
+//Keyword ARRAY
+//lexeme: [array]
+//EOF
+//val it : unit = ()
