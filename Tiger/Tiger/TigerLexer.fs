@@ -36,9 +36,10 @@ let keywords =
         "let",     LET; 
         "in",      IN;
         "nil",     NIL; 
+        "var",     VAR;
     ] |> Map.ofList   
 
-# 41 "TigerLexer.fs"
+# 42 "TigerLexer.fs"
 let trans : uint16[] array = 
     [| 
     (* State 0 *)
@@ -109,81 +110,81 @@ and comments level (lexbuf : Microsoft.FSharp.Text.Lexing.LexBuffer<_>) = _fslex
 and _fslex_tokenize  _fslex_state lexbuf =
   match _fslex_tables.Interpret(_fslex_state,lexbuf) with
   | 0 -> ( 
-# 62 "Tiger.fsl"
+# 63 "Tiger.fsl"
                                  tokenize lexbuf 
-# 114 "TigerLexer.fs"
+# 115 "TigerLexer.fs"
           )
   | 1 -> ( 
-# 68 "Tiger.fsl"
+# 69 "Tiger.fsl"
                                  lexbuf.EndPos <- lexbuf.EndPos.NextLine; tokenize lexbuf; 
-# 119 "TigerLexer.fs"
+# 120 "TigerLexer.fs"
           )
   | 2 -> ( 
-# 70 "Tiger.fsl"
+# 71 "Tiger.fsl"
                                  Int(Int32.Parse(LexBuffer<_>.LexemeString lexbuf)) 
-# 124 "TigerLexer.fs"
+# 125 "TigerLexer.fs"
           )
   | 3 -> ( 
-# 71 "Tiger.fsl"
+# 72 "Tiger.fsl"
                                  Float(Double.Parse(LexBuffer<_>.LexemeString lexbuf)) 
-# 129 "TigerLexer.fs"
+# 130 "TigerLexer.fs"
           )
   | 4 -> ( 
-# 72 "Tiger.fsl"
+# 73 "Tiger.fsl"
                                  TigerAST.Comma 
-# 134 "TigerLexer.fs"
+# 135 "TigerLexer.fs"
           )
   | 5 -> ( 
-# 73 "Tiger.fsl"
+# 74 "Tiger.fsl"
                                  TigerAST.BinaryOperator(ops.[LexBuffer<_>.LexemeString lexbuf]) 
-# 139 "TigerLexer.fs"
+# 140 "TigerLexer.fs"
           )
   | 6 -> ( 
-# 74 "Tiger.fsl"
+# 75 "Tiger.fsl"
                              printfn "Comments start"; 
                                  comments 0 lexbuf; 
                                
-# 146 "TigerLexer.fs"
+# 147 "TigerLexer.fs"
           )
   | 7 -> ( 
-# 77 "Tiger.fsl"
+# 78 "Tiger.fsl"
                                  match keywords.TryFind(LexBuffer<_>.LexemeString lexbuf) with   
                                  | Some(token) -> TigerAST.Keyword(token)
                                  | None -> ID(LexBuffer<_>.LexemeString lexbuf) 
                                
-# 154 "TigerLexer.fs"
+# 155 "TigerLexer.fs"
           )
   | 8 -> ( 
-# 82 "Tiger.fsl"
+# 83 "Tiger.fsl"
                                  TigerAST.EOF 
-# 159 "TigerLexer.fs"
+# 160 "TigerLexer.fs"
           )
   | _ -> failwith "tokenize"
 (* Rule comments *)
 and _fslex_comments level _fslex_state lexbuf =
   match _fslex_tables.Interpret(_fslex_state,lexbuf) with
   | 0 -> ( 
-# 86 "Tiger.fsl"
+# 87 "Tiger.fsl"
                         
                            printfn "Comments (%d) end" level;
                            if level = 0 
                            then tokenize lexbuf
                            else comments (level-1) lexbuf
                        
-# 173 "TigerLexer.fs"
+# 174 "TigerLexer.fs"
           )
   | 1 -> ( 
-# 92 "Tiger.fsl"
+# 93 "Tiger.fsl"
                          
                            printfn "comments (%d) start" (level+1); 
                            comments (level+1) lexbuf
                        
-# 181 "TigerLexer.fs"
+# 182 "TigerLexer.fs"
           )
   | 2 -> ( 
 # 97 "Tiger.fsl"
                          comments level lexbuf 
-# 186 "TigerLexer.fs"
+# 187 "TigerLexer.fs"
           )
   | 3 -> ( 
 # 98 "Tiger.fsl"
@@ -192,7 +193,7 @@ and _fslex_comments level _fslex_state lexbuf =
                          exception EndOfFile of string
                          raise EndOfFile("")
                        
-# 195 "TigerLexer.fs"
+# 196 "TigerLexer.fs"
           )
   | _ -> failwith "comments"
 

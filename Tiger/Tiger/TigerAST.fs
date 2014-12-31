@@ -28,6 +28,7 @@ type Keyword =
     | LET
     | IN
     | NIL   
+    | VAR
 
 type value = 
     | Int of int
