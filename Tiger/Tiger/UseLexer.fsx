@@ -77,3 +77,9 @@ let tokenize str =
 //val it : unit = ()
 
 "/* foo bar baz */" |> tokenize
+
+//lexeme: []
+//Comments start
+//Comments (0) end
+//EOF
+//val it : unit = ()

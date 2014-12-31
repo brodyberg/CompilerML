@@ -93,9 +93,9 @@ and comments level = parse
             printfn "comments (%d) start" (level+1); 
             comments (level+1) lexbuf
         }
+| _     { comments level lexbuf }
 | eof   { 
           printfn "Comments are not closed"; 
           exception EndOfFile of string
           raise EndOfFile("")
         }
-| _     { comments level lexbuf }
