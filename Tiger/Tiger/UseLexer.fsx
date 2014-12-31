@@ -7,18 +7,48 @@ open Microsoft.FSharp.Text.Lexing
 #load "TigerAST.fs" 
 #load "TigerLexer.fs"
 
-//File.ReadAllText "/Users/brodyberg/code/CompilerML/Tiger/Tiger/Examples/queens.tig"
-
 let tokenize str =
     
     let lexbuf = LexBuffer<_>.FromString str    
 
     let _tokenize (lexbuf:LexBuffer<char>) = 
         while not lexbuf.IsPastEndOfStream do          
-            printfn "lexeme: [%s]" (LexBuffer<_>.LexemeString lexbuf)
             printfn "%A" (TigerLexer.tokenize lexbuf)
 
     _tokenize lexbuf
+
+let theFile = File.ReadAllText "/Users/brodyberg/code/CompilerML/Tiger/Tiger/Examples/queens.tig"
+theFile
+theFile |> tokenize
+
+"N-1" |> tokenize
+// fail: 
+//ID "N-1"
+//EOF
+
+// closer, but fail still: 
+//ID "N"
+//Int -1
+//EOF
+
+// booyah!
+//ID "N"
+//BinaryOperator Minus
+//Int 1
+//EOF
+//val it : unit = ()
+
+"5" |> tokenize
+//Int 5
+//EOF
+
+"-5" |> tokenize
+//BinaryOperator Minus
+//Int 5
+//EOF
+" -5" |> tokenize
+//Int -5
+//EOF
 
 "," |> tokenize
  
