@@ -19,6 +19,18 @@ let ops =
         "**",   TigerAST.Exponent; 
     ] |> Map.ofList   
 
+let punctuation = 
+    [
+        "[", TigerAST.LBracket; 
+        "]", TigerAST.RBracket;
+        "(", TigerAST.LParen;
+        ")", TigerAST.RParen;
+        ".", TigerAST.Period; 
+        ":", TigerAST.Colon;
+        ";", TigerAST.SemiColon; 
+        ",", TigerAST.Comma
+    ] |> Map.ofList   
+
 let keywords =   
     [   
         "int",     INT;
@@ -51,6 +63,7 @@ let whitespace  = [' ' '\t']
 let newline     = "\n\r" | '\n' | '\r'  
 let operator    = "=" | "<" | "<=" | ">" | ">=" | ":=" | "+" | "-" | "/" | "*" | "**"
 let identifier  = char(char|digit|['-' '_' '.'])*
+let isPunctuation = "[" | "]" | "(" | ")" | "." | ":" | ";" | ","
 
 // rules   
 rule tokenize = parse   
@@ -71,7 +84,7 @@ rule tokenize = parse
 // 'lexeme lexbuf' returns the string our parser matched
 | int           { Int(Int32.Parse(LexBuffer<_>.LexemeString lexbuf)) }   
 | float         { Float(Double.Parse(LexBuffer<_>.LexemeString lexbuf)) }   
-| ','           { TigerAST.Comma }   
+| isPunctuation { TigerAST.PunctuationItem(punctuation.[LexBuffer<_>.LexemeString lexbuf]) }
 | operator      { TigerAST.BinaryOperator(ops.[LexBuffer<_>.LexemeString lexbuf]) }  
 | "/*"		    { printfn "Comments start"; 
                   comments 0 lexbuf; 

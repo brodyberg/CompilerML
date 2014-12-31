@@ -31,15 +31,23 @@ type Keyword =
     | VAR
     | OF
 
+type Punctuation = 
+    | LBracket
+    | RBracket
+    | LParen
+    | RParen
+    | Period
+    | Colon
+    | SemiColon
+    | Comma
+
 type value = 
     | Int of int
     | Float of float
     | String of string
-    | Comma
+    | PunctuationItem of Punctuation
     | EOF
     | BinaryOperator of Operator
     | Comment of string
-//    | CommentStart //  of int * int // line, column
-//    | CommentEnd // of int * int // line, column
     | Keyword of Keyword 
     | ID of string
