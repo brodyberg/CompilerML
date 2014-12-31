@@ -9,14 +9,18 @@ open Microsoft.FSharp.Text.Lexing
 
 //File.ReadAllText "/Users/brodyberg/code/CompilerML/Tiger/Tiger/Examples/queens.tig"
 
-let tokenize (lexbuf:LexBuffer<char>) = 
-    while not lexbuf.IsPastEndOfStream do          
-        printfn "lexeme: [%s]" (LexBuffer<_>.LexemeString lexbuf)
-        printfn "%A" (TigerLexer.tokenize lexbuf)
+let tokenize str =
+    
+    let lexbuf = LexBuffer<_>.FromString str    
 
-","
-|> LexBuffer<_>.FromString
-|> tokenize
+    let _tokenize (lexbuf:LexBuffer<char>) = 
+        while not lexbuf.IsPastEndOfStream do          
+            printfn "lexeme: [%s]" (LexBuffer<_>.LexemeString lexbuf)
+            printfn "%A" (TigerLexer.tokenize lexbuf)
+
+    _tokenize lexbuf
+
+"," |> tokenize
  
 //lexbuf: Microsoft.FSharp.Text.Lexing.LexBuffer`1[System.Char]
 //Comma
@@ -24,9 +28,7 @@ let tokenize (lexbuf:LexBuffer<char>) =
 //EOF
 //val it : unit = ()
 
-"+"
-|> LexBuffer<_>.FromString
-|> tokenize
+"+" |> tokenize
 
 //lexeme: []
 //BinaryOperator Plus
@@ -34,9 +36,7 @@ let tokenize (lexbuf:LexBuffer<char>) =
 //EOF
 //val it : unit = ()
 
-"*"
-|> LexBuffer<_>.FromString
-|> tokenize
+"*" |> tokenize
 
 //lexeme: []
 //BinaryOperator Multiply
@@ -44,9 +44,7 @@ let tokenize (lexbuf:LexBuffer<char>) =
 //EOF
 //val it : unit = ()
 
-"/"
-|> LexBuffer<_>.FromString
-|> tokenize
+"/" |> tokenize
 
 //lexeme: []
 //BinaryOperator Divide
@@ -54,9 +52,7 @@ let tokenize (lexbuf:LexBuffer<char>) =
 //EOF
 //val it : unit = ()
 
-"/*"
-|> LexBuffer<_>.FromString
-|> tokenize
+"/*" |> tokenize
 
 //lexeme: []
 //CommentStart
@@ -64,9 +60,7 @@ let tokenize (lexbuf:LexBuffer<char>) =
 //EOF
 //val it : unit = ()
 
-"brody"
-|> LexBuffer<_>.FromString
-|> tokenize
+"brody" |> tokenize
 
 //lexeme: []
 //ID "brody"
@@ -74,12 +68,12 @@ let tokenize (lexbuf:LexBuffer<char>) =
 //EOF
 //val it : unit = ()
 
-"function"
-|> LexBuffer<_>.FromString
-|> tokenize
+"function" |> tokenize
 
 //lexeme: []
 //Keyword FUNCTION
 //lexeme: [function]
 //EOF
 //val it : unit = ()
+
+"/* foo bar baz */" |> tokenize

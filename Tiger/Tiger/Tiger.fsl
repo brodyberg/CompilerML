@@ -4,12 +4,6 @@ open System
 open Microsoft.FSharp.Text.Lexing   
 open TigerAST
 
-//let comments =
-//    [
-//        "/*", TigerAST.CommentStart;
-//       "*/", TigerAST.CommentEnd;
-//    ] |> Map.ofList
-
 let ops =   
     [   
         "=",    TigerAST.Equal;   
@@ -53,11 +47,8 @@ let int        = '-'?digit+
 let float       = '-'?digit+ '.' digit+   
 let whitespace  = [' ' '\t']   
 let newline     = "\n\r" | '\n' | '\r'  
-//let comment     = "/*" | "*/"
 let operator    = "=" | "<" | "<=" | ">" | ">=" | ":=" | "+" | "-" | "/" | "*" | "**"
 let identifier  = char(char|digit|['-' '_' '.'])*
-//let commentStart = "/*"
-//let newThing    = commentStart[.]*commentEnd
 
 // rules   
 rule tokenize = parse   
@@ -83,21 +74,6 @@ rule tokenize = parse
 | "/*"		    { printfn "Comments start"; 
                   comments 0 lexbuf; 
                 }
-
-
-//| commentStart  { 
-//					let mutable depth = 1
-					
-					
-
-					// set depth to 1
-				  // advance
-                  // if we get another /* increment depth
-                  // if we get a */ we decrement
-                  // if depth is 0 then we're done with the comment
-
-//| comment       { comments.[LexBuffer<_>.LexemeString lexbuf] }  
-//| newThing      { TigerAST.Comment(LexBuffer<_>.LexemeString lexbuf) }
 | identifier    { match keywords.TryFind(LexBuffer<_>.LexemeString lexbuf) with   
                   | Some(token) -> TigerAST.Keyword(token)
                   | None -> ID(LexBuffer<_>.LexemeString lexbuf) 
