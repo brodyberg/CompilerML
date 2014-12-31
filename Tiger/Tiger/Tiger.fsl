@@ -91,7 +91,18 @@ let isPunctuation = "[" | "]" | "(" | ")" | "." | ":" | ";" | ","
 //let stringLiteral = ("\"".)*("\"") // parse error
 //let stringLiteral = "\""(char | digit | whitespace | int | float | newline | isPunctuation)+"\""
 let stringLiteral = "\""(char | digit | whitespace | int | float | newline | isPunctuation)*"\""
-
+//let stringLiteral = "\""."\"" // parse error
+//let stringLiteral = ("\""(.))"\"" // parse error
+//let stringLiteral = "\""*"\"" // match fail
+//let stringLiteral = "\"".*"\"" // parse error
+// HOLD ON let stringLiteral = "\""[\s\S\d\D]*"\"" // parse error
+//let stringLiteral = "\""[.]*"\"" // parse error
+//let stringLiteral = "\""[a-z A-Z]*"\"" // parse error
+//let stringLiteral = ("\"")[a-z A-Z]*("\"") // parse error
+// let stringLiteral = "\""[a-z A-Z]"\"" // parse error
+//let stringLiteral = '\"'.*'\"' // parse error
+//let stringLiteral = '\"'(.)*'\"' // parse error
+//let stringLiteral = '\"'[\s\S\d\D\w\W]*'\"' // unexpected character \
 
 // rules   
 rule tokenize = parse   
