@@ -20,6 +20,8 @@ let ops =
         "/",    TigerAST.Divide; 
         "*",    TigerAST.Multiply;
         "**",   TigerAST.Exponent; 
+        "&",    TigerAST.And;
+        "|",    TigerAST.Or; 
     ] |> Map.ofList   
 
 let punctuation = 
@@ -66,7 +68,7 @@ let whitespace  = [' ' '\t']
 let int         = (whitespace('-'))?digit+   
 let float       = (whitespace('-'))?digit+ '.' digit+   
 let newline     = "\n\r" | '\n' | '\r'  
-let operator    = "=" | "<" | "<=" | ">" | ">=" | ":=" | "+" | "-" | "/" | "*" | "**"
+let operator    = "=" | "<" | "<=" | ">" | ">=" | ":=" | "+" | "-" | "/" | "*" | "**" | "&" | "|" 
 let identifier  = char(char|digit|['_' '.'])*
 let isPunctuation = "[" | "]" | "(" | ")" | "." | ":" | ";" | ","
 let stringLiteral = "\""(char | digit | whitespace | int | float | newline | isPunctuation)*"\""

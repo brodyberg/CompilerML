@@ -21,6 +21,8 @@ let ops =
         "/",    TigerAST.Divide; 
         "*",    TigerAST.Multiply;
         "**",   TigerAST.Exponent; 
+        "&",    TigerAST.And;
+        "|",    TigerAST.Or; 
     ] |> Map.ofList   
 
 let punctuation = 
@@ -55,7 +57,7 @@ let keywords =
         "of",      OF; 
     ] |> Map.ofList   
 
-# 58 "TigerLexer.fs"
+# 60 "TigerLexer.fs"
 let trans : uint16[] array = 
     [| 
     (* State 0 *)
@@ -73,7 +75,7 @@ let trans : uint16[] array =
     (* State 6 *)
      [| 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; |];
     (* State 7 *)
-     [| 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 8us; 9us; 21us; 21us; 10us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 8us; 21us; 20us; 21us; 21us; 21us; 21us; 21us; 12us; 12us; 18us; 14us; 12us; 14us; 12us; 17us; 11us; 11us; 11us; 11us; 11us; 11us; 11us; 11us; 11us; 11us; 13us; 12us; 15us; 14us; 16us; 21us; 21us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 12us; 21us; 12us; 21us; 21us; 21us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 22us; |];
+     [| 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 8us; 9us; 21us; 21us; 10us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 8us; 21us; 20us; 21us; 21us; 21us; 14us; 21us; 12us; 12us; 18us; 14us; 12us; 14us; 12us; 17us; 11us; 11us; 11us; 11us; 11us; 11us; 11us; 11us; 11us; 11us; 13us; 12us; 15us; 14us; 16us; 21us; 21us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 12us; 21us; 12us; 21us; 21us; 21us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 19us; 21us; 14us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 21us; 22us; |];
     (* State 8 *)
      [| 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 41us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; |];
     (* State 9 *)
@@ -156,107 +158,107 @@ and comments level (lexbuf : Microsoft.FSharp.Text.Lexing.LexBuffer<_>) = _fslex
 and _fslex_tokenize  _fslex_state lexbuf =
   match _fslex_tables.Interpret(_fslex_state,lexbuf) with
   | 0 -> ( 
-# 83 "Tiger.fsl"
+# 85 "Tiger.fsl"
                                  tokenize lexbuf 
-# 161 "TigerLexer.fs"
+# 163 "TigerLexer.fs"
           )
   | 1 -> ( 
-# 89 "Tiger.fsl"
+# 91 "Tiger.fsl"
                                  lexbuf.EndPos <- lexbuf.EndPos.NextLine; tokenize lexbuf; 
-# 166 "TigerLexer.fs"
+# 168 "TigerLexer.fs"
           )
   | 2 -> ( 
-# 91 "Tiger.fsl"
+# 93 "Tiger.fsl"
                                  Int(Int32.Parse(LexBuffer<_>.LexemeString lexbuf)) 
-# 171 "TigerLexer.fs"
+# 173 "TigerLexer.fs"
           )
   | 3 -> ( 
-# 92 "Tiger.fsl"
+# 94 "Tiger.fsl"
                                  Float(Double.Parse(LexBuffer<_>.LexemeString lexbuf)) 
-# 176 "TigerLexer.fs"
+# 178 "TigerLexer.fs"
           )
   | 4 -> ( 
-# 93 "Tiger.fsl"
+# 95 "Tiger.fsl"
                                  TigerAST.PunctuationItem(punctuation.[LexBuffer<_>.LexemeString lexbuf]) 
-# 181 "TigerLexer.fs"
+# 183 "TigerLexer.fs"
           )
   | 5 -> ( 
-# 94 "Tiger.fsl"
+# 96 "Tiger.fsl"
                                  TigerAST.BinaryOperator(ops.[LexBuffer<_>.LexemeString lexbuf]) 
-# 186 "TigerLexer.fs"
+# 188 "TigerLexer.fs"
           )
   | 6 -> ( 
-# 95 "Tiger.fsl"
+# 97 "Tiger.fsl"
                              printfn "Comments start"; 
                                  comments 0 lexbuf; 
                                
-# 193 "TigerLexer.fs"
+# 195 "TigerLexer.fs"
           )
   | 7 -> ( 
-# 98 "Tiger.fsl"
+# 100 "Tiger.fsl"
                                  match keywords.TryFind(LexBuffer<_>.LexemeString lexbuf) with   
                                  | Some(token) -> TigerAST.Keyword(token)
                                  | None -> ID(LexBuffer<_>.LexemeString lexbuf) 
                                
-# 201 "TigerLexer.fs"
+# 203 "TigerLexer.fs"
           )
   | 8 -> ( 
-# 102 "Tiger.fsl"
+# 104 "Tiger.fsl"
                                  
                					let quotedLiteral = LexBuffer<_>.LexemeString lexbuf
                					let unquotedLiteral = quotedLiteral.Substring(1, quotedLiteral.Length - 2)
                					TigerAST.StringLiteral unquotedLiteral 
-# 209 "TigerLexer.fs"
+# 211 "TigerLexer.fs"
           )
   | 9 -> ( 
-# 106 "Tiger.fsl"
+# 108 "Tiger.fsl"
                                  
                				  let item = LexBuffer<_>.LexemeString lexbuf
                				  let errorNotice = sprintf "Unrecognized character [%s] at line %d column %d" item (lexbuf.EndPos.Line + 1) lexbuf.EndPos.Column
                				  printfn "%s" errorNotice
                				  raise UnknownItem(errorNotice)
                                
-# 219 "TigerLexer.fs"
+# 221 "TigerLexer.fs"
           )
   | 10 -> ( 
-# 115 "Tiger.fsl"
+# 117 "Tiger.fsl"
                                  TigerAST.EOF 
-# 224 "TigerLexer.fs"
+# 226 "TigerLexer.fs"
           )
   | _ -> failwith "tokenize"
 (* Rule comments *)
 and _fslex_comments level _fslex_state lexbuf =
   match _fslex_tables.Interpret(_fslex_state,lexbuf) with
   | 0 -> ( 
-# 119 "Tiger.fsl"
+# 121 "Tiger.fsl"
                         
                            if level = 0 
                            then tokenize lexbuf
                            else comments (level-1) lexbuf
                        
-# 237 "TigerLexer.fs"
+# 239 "TigerLexer.fs"
           )
   | 1 -> ( 
-# 124 "Tiger.fsl"
+# 126 "Tiger.fsl"
                          
                            comments (level+1) lexbuf
                        
-# 244 "TigerLexer.fs"
+# 246 "TigerLexer.fs"
           )
   | 2 -> ( 
-# 127 "Tiger.fsl"
+# 129 "Tiger.fsl"
                          comments level lexbuf 
-# 249 "TigerLexer.fs"
+# 251 "TigerLexer.fs"
           )
   | 3 -> ( 
-# 128 "Tiger.fsl"
+# 130 "Tiger.fsl"
                          
                          raise EndOfFile("Found end of file before end of comment.")
                        
-# 256 "TigerLexer.fs"
+# 258 "TigerLexer.fs"
           )
   | _ -> failwith "comments"
 
-# 130 "Tiger.fsl"
+# 132 "Tiger.fsl"
 
 # 3000000 "TigerLexer.fs"

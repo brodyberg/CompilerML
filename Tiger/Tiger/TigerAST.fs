@@ -11,7 +11,9 @@ type Operator =
     | Minus
     | Divide
     | Multiply
-    | Exponent    
+    | Exponent
+    | And
+    | Or    
 
 type Keyword = 
     | INT
