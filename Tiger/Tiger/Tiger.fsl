@@ -4,6 +4,8 @@ open System
 open Microsoft.FSharp.Text.Lexing   
 open TigerAST
 
+exception EndOfFile of string
+
 let ops =   
     [   
         "=",    TigerAST.Equal;   
@@ -66,6 +68,14 @@ let newline     = "\n\r" | '\n' | '\r'
 let operator    = "=" | "<" | "<=" | ">" | ">=" | ":=" | "+" | "-" | "/" | "*" | "**"
 let identifier  = char(char|digit|['_' '.'])*
 let isPunctuation = "[" | "]" | "(" | ")" | "." | ":" | ";" | ","
+//let doubleQuotes = "\""
+//let stringLiteral = doubleQuotes(.*)doubleQuotes
+//let stringLiteral = """(.*)"""
+//let stringLiteral = \".*\" // unexpected '\'
+//let stringLiteral = "\"".*"\"" // parse error
+//let stringLiteral = "\""(.*)"\"" // parse error
+//let stringLiteral = """ // unexpected character '/' at line 101(!)
+let stringLiteral = "\""
 
 // rules   
 rule tokenize = parse   
@@ -95,24 +105,38 @@ rule tokenize = parse
                   | Some(token) -> TigerAST.Keyword(token)
                   | None -> ID(LexBuffer<_>.LexemeString lexbuf) 
                 } 
+| stringLiteral { 
+					let x = LexBuffer<_>.LexemeString lexbuf
+					printfn "FOUND: %s" x
+//					TigerAST.StringLiteral(LexBuffer<_>.LexemeString lexbuf) }
+					TigerAST.StringLiteral x }
+| _             { 
+                  let exceptionString = String.Format("Unrecognized character at line {0} column {1}", 
+                      lexbuf.EndPos.Line + 1, 
+                      lexbuf.EndPos.Column) 
+//                  LEXEREXCEPTION (exceptionString) 
+                } 
 // eof is a special marker used to identify the end of a string buffer input.
 | eof           { TigerAST.EOF }
 // The tokenize function will be converted into function which 
 // has a return type of SqlParser.token
 and comments level = parse
 | "*/"	{ 
-            printfn "Comments (%d) end" level;
             if level = 0 
             then tokenize lexbuf
             else comments (level-1) lexbuf
         }
 | "/*"  { 
-            printfn "comments (%d) start" (level+1); 
             comments (level+1) lexbuf
         }
 | _     { comments level lexbuf }
 | eof   { 
-          printfn "Comments are not closed"; 
-          exception EndOfFile of string
-          raise EndOfFile("")
+          raise EndOfFile("Found end of file before end of comment.")
         }
+//and stringLiterals literalSoFar = parse
+//| _     { TigerAST.StringLiteral("foo") }
+//| eof   { raise EndOfFile("Found end of file before end of string literal.") } 
+//and stringLiterals literalSoFar = parse
+//| "\""  { TigerAST.StringLiteral(literalSoFar) }
+//| _     { stringLiterals (literalSoFar + (LexBuffer<_>.LexemeString lexbuf)) }
+//| eof   { raise EndOfFile("Found end of file before end of string literal.") } 
