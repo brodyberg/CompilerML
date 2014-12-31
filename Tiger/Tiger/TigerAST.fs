@@ -29,6 +29,7 @@ type Keyword =
     | IN
     | NIL   
     | VAR
+    | OF
 
 type value = 
     | Int of int
