@@ -21,6 +21,10 @@ let theFile = File.ReadAllText "/Users/brodyberg/code/CompilerML/Tiger/Tiger/Exa
 theFile
 theFile |> tokenize
 
+let fooTig = File.ReadAllText "/Users/brodyberg/code/CompilerML/Tiger/Tiger/Examples/escapeSequence.tig"
+fooTig
+fooTig |> tokenize
+
 "foo" |> tokenize
 //ID "foo"
 //EOF

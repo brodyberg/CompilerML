@@ -71,8 +71,9 @@ let float       = (whitespace('-'))?digit+ '.' digit+
 let newline     = "\n\r" | '\n' | '\r'  
 let operator    = "=" | "<" | "<=" | ">" | ">=" | ":=" | "+" | "-" | "/" | "*" | "**" | "&" | "|" 
 let identifier  = char(char|digit|['_' '.'])*
+let escape      = '\\'
 let isPunctuation = "[" | "]" | "(" | ")" | "." | ":" | ";" | ","
-let stringLiteral = "\""(char | digit | whitespace | int | float | newline | isPunctuation)*"\""
+let stringLiteral = "\""(escape | char | digit | whitespace | int | float | newline | isPunctuation)*"\""
 
 // rules   
 rule tokenize = parse   
