@@ -62,5 +62,6 @@
     <None Include="packages.config" />
     <None Include="Tiger.fsp" />
     <None Include="Tiger.fsl" />
+    <None Include="UseParser.fsx" />
   </ItemGroup>
 </Project>
