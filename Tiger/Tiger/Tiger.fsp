@@ -6,34 +6,62 @@ open Tiger // maybe we open this only for when we invoke the tokenizer
 %}
 
 %token <string> ID
+%token <int> Int
+%token <float> Float
+%token <string> StringLiteral
+%token <string> Comment
+
+%token Equal Less LessEqual Greater GreaterEqual Assign Plus Minus Divide Multiply Exponent And Or    
+%token INT ARRAY TYPE IF THEN ELSE FOR TO DO WHILE FUNCTION LET IN NIL VAR OF END
+%token LBracket RBracket LParen RParen Period Colon SemiColon Comma
 
 // http://en.wikibooks.org/wiki/F_Sharp_Programming/Lexing_and_Parsing#Step_2:_Define_the_parser_tokens
 // "A token is any single identifiable element in a grammar"
 
+// ORDER: IS PRIORITY
+
+
+
 // Comments
-%token COMMENTSTART COMMENTEND
+//%token COMMENTSTART COMMENTEND
 // Operators
-%token SET LBRACKET RBRACKET LPAREN RPAREN COMMA PERIOD COLON SEMICOLON
+//%token SET LBRACKET RBRACKET LPAREN RPAREN COMMA PERIOD COLON SEMICOLON
 // Math operators
-%token PLUS MINUS AND OR
+//%token PLUS MINUS AND OR
 // Logical operators
-%token EQ LESS GREATER LESSEQUAL GREATEREQUAL
+//%token EQ LESS GREATER LESSEQUAL GREATEREQUAL
 // Type specifiers
-%token INT ARRAY TYPE
+//%token INT ARRAY TYPE
 // Control flow
-%token IF THEN ELSE FOR TO DO WHILE
+//%token IF THEN ELSE FOR TO DO WHILE
 // SCOPE
-%token FUNCTION LET IN
+// %token FUNCTION LET IN
+//%token LET END
 // Values
-%token NIL
-%token EOF   
+//%token NIL
+//%token EOF   
  
+// at some point we need productions
+// our productions for this round will invoke nothing 
+// and return unit
+// should allow us to still demonstrate no shift/reduce 
+// or reduce/reduce errors
+
 // start   
 %start start   
 %type <string> start   
 
 %%   
  
+// this is our start symbol -> production-time! 
 start:   
-    |                             { "Nothing to see here" }   
+    | LET                            { }
+	// | LET stmts END               { "Nothing to see here" }
+
+//value: 
+//	INT 
+
+//another:
+//	|                             { }
+
 %%

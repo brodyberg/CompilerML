@@ -4,34 +4,27 @@
 
 open System.IO
 open Microsoft.FSharp.Text.Lexing
+
+// we need to have the lexer return TigerParser.token?
+// so what happens to TigerAST?
+// yes, I see now that the tokens in the example are defined 
+// by the parser
 #load "TigerAST.fs" 
 #load "TigerLexer.fs"
 #load "TigerParser.fs" 
 
-//let tokenize str =
-//    
-//    let lexbuf = LexBuffer<_>.FromString str    
-//
-//    let _tokenize (lexbuf:LexBuffer<char>) = 
-//        while not lexbuf.IsPastEndOfStream do          
-//            printfn "%A" (TigerLexer.tokenize lexbuf)
-//
-//    _tokenize lexbuf
+//let toLexBuf (str:string) = LexBuffer<_>.FromString str
 
-//let tokenize str =
-//    let lexbuf = LexBuffer<_>.FromString str    
-//
-//    seq {
-//        while not lexbuf.IsPastEndOfStream do 
-//            yield TigerLexer.tokenize lexbuf
-//    }    
-//
-//let parse tokens =
-//    tokens
-//    |> Seq.map (fun token -> TigerParser.start
+let theFile = File.ReadAllText "/Users/brodyberg/code/CompilerML/Tiger/Tiger/Examples/queens.tig"
 
-let lexbuf = LexBuffer<_>.FromString str    
-TigerParser.start TigerLexer.tokenize lexbuf
+//let x =     
+//    File.ReadAllText "/Users/brodyberg/code/CompilerML/Tiger/Tiger/Examples/queens.tig"
+//    |> toLexBuf
+//    |> TigerLexer.tokenize
 
-"let" |> tokenize |> parse 
+let lexbuf = Lexing.LexBuffer<_>.FromString theFile
+let parseOutput = TigerParser.start TigerLexer.tokenize lexbuf   
 
+//TigerParser.start x
+
+//|> TigerParser.start

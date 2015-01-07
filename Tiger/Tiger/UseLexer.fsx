@@ -4,7 +4,10 @@
 
 open System.IO
 open Microsoft.FSharp.Text.Lexing
-#load "TigerAST.fs" 
+// should go away and be replaced by TigerParser.fs #load "TigerAST.fs" 
+// or even go away entirely and have the open TigerParser happen in the 
+// Tiger.fsl file itself (finally) 
+
 #load "TigerLexer.fs"
 
 let tokenize str =
