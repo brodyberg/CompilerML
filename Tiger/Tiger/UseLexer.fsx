@@ -8,6 +8,7 @@ open Microsoft.FSharp.Text.Lexing
 // or even go away entirely and have the open TigerParser happen in the 
 // Tiger.fsl file itself (finally) 
 
+#load "TigerParser.fs"
 #load "TigerLexer.fs"
 
 let tokenize str =

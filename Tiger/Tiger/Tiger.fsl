@@ -1,8 +1,9 @@
 ﻿{   
-// header: any valid F# can appear here.   
+module TigerLexerFromFsl
+
 open System
 open Microsoft.FSharp.Text.Lexing   
-open TigerAST
+open TigerParser
 
 exception EndOfFile of string
 exception UnknownItem of string
@@ -96,7 +97,7 @@ rule tokenize = parse
 | float         { Float(Double.Parse(LexBuffer<_>.LexemeString lexbuf)) }   
 | isPunctuation { TigerAST.PunctuationItem(punctuation.[LexBuffer<_>.LexemeString lexbuf]) }
 | operator      { TigerAST.BinaryOperator(ops.[LexBuffer<_>.LexemeString lexbuf]) }  
-| "/*"		    { printfn "Comments start"; 
+| "/*"          { printfn "Comments start"; 
                   comments 0 lexbuf; 
                 }
 | identifier    { match keywords.TryFind(LexBuffer<_>.LexemeString lexbuf) with   
@@ -104,16 +105,15 @@ rule tokenize = parse
                   | None -> ID(LexBuffer<_>.LexemeString lexbuf) 
                 } 
 | stringLiteral { 
-					let quotedLiteral = LexBuffer<_>.LexemeString lexbuf
-					let unquotedLiteral = quotedLiteral.Substring(1, quotedLiteral.Length - 2)
-					TigerAST.StringLiteral unquotedLiteral }
+                  let quotedLiteral = LexBuffer<_>.LexemeString lexbuf
+                  let unquotedLiteral = quotedLiteral.Substring(1, quotedLiteral.Length - 2)
+                  TigerAST.StringLiteral unquotedLiteral }
 | _             { 
-				  let item = LexBuffer<_>.LexemeString lexbuf
+                  let item = LexBuffer<_>.LexemeString lexbuf
+                  let errorNotice = sprintf "Unrecognized character [%s] at line %d column %d" item (lexbuf.EndPos.Line + 1) lexbuf.EndPos.Column
+                  printfn "%s" errorNotice
 
-				  let errorNotice = sprintf "Unrecognized character [%s] at line %d column %d" item (lexbuf.EndPos.Line + 1) lexbuf.EndPos.Column
-				  printfn "%s" errorNotice
-
-				  raise UnknownItem(errorNotice)
+                  raise (UnknownItem(errorNotice))
                 } 
 // eof is a special marker used to identify the end of a string buffer input.
 | eof           { TigerAST.EOF }
@@ -130,5 +130,5 @@ and comments level = parse
         }
 | _     { comments level lexbuf }
 | eof   { 
-          raise EndOfFile("Found end of file before end of comment.")
+          raise (EndOfFile("Found end of file before end of comment."))
         }

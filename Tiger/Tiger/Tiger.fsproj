@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -19,6 +19,12 @@
     <Tailcalls>false</Tailcalls>
     <PlatformTarget>
     </PlatformTarget>
+    <CustomCommands>
+      <CustomCommands>
+        <Command type="BeforeBuild" command="mono ../packages/FSPowerPack.Community.3.0.0.0/Tools/fsyacc.exe Tiger.fsp -o TigerParser.fs --module TigerParserFromCommands" workingdir="${ProjectDir}" />
+        <Command type="BeforeBuild" command="mono ../packages/FSPowerPack.Community.3.0.0.0/Tools/fslex.exe Tiger.fsl -o TigerLexer.fs" workingdir="${ProjectDir}" />
+      </CustomCommands>
+    </CustomCommands>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>false</DebugSymbols>
@@ -52,16 +58,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="Script.fsx" />
     <Compile Include="TigerParser.fs" />
+    <Compile Include="TigerParser.fsi" />
     <Compile Include="TigerLexer.fs" />
     <Compile Include="TigerAST.fs" />
+    <Compile Include="Tiger.fs" />
+    <Compile Include="UseLexer.fsx" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\3.1\Framework\v4.0\Microsoft.FSharp.Targets" />
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Tiger.fsp" />
-    <None Include="Tiger.fsl" />
     <None Include="UseParser.fsx" />
+    <None Include="Tiger.fsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Tiger.fsp" />
   </ItemGroup>
 </Project>
