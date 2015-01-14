@@ -18,8 +18,7 @@ open Tiger
 %type <string> start   
 
 %%   
- 
-// this is our start symbol -> production-time! 
+
 start:   
-    | LET                            { }
+                                       { "returning a string for now" }
 %%

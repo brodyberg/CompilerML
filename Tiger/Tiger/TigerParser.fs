@@ -313,14 +313,14 @@ let _fsyacc_dataOfToken (t:token) =
   | ID _fsyacc_x -> Microsoft.FSharp.Core.Operators.box _fsyacc_x 
 let _fsyacc_gotos = [| 0us; 65535us; 1us; 65535us; 0us; 1us; |]
 let _fsyacc_sparseGotoTableRowOffsets = [|0us; 1us; |]
-let _fsyacc_stateToProdIdxsTableElements = [| 1us; 0us; 1us; 0us; 1us; 1us; |]
-let _fsyacc_stateToProdIdxsTableRowOffsets = [|0us; 2us; 4us; |]
-let _fsyacc_action_rows = 3
-let _fsyacc_actionTableElements = [|1us; 32768us; 20us; 2us; 0us; 49152us; 0us; 16385us; |]
-let _fsyacc_actionTableRowOffsets = [|0us; 2us; 3us; |]
-let _fsyacc_reductionSymbolCounts = [|1us; 1us; |]
+let _fsyacc_stateToProdIdxsTableElements = [| 1us; 0us; 1us; 0us; |]
+let _fsyacc_stateToProdIdxsTableRowOffsets = [|0us; 2us; |]
+let _fsyacc_action_rows = 2
+let _fsyacc_actionTableElements = [|0us; 16385us; 0us; 49152us; |]
+let _fsyacc_actionTableRowOffsets = [|0us; 1us; |]
+let _fsyacc_reductionSymbolCounts = [|1us; 0us; |]
 let _fsyacc_productionToNonTerminalTable = [|0us; 1us; |]
-let _fsyacc_immediateActions = [|65535us; 49152us; 16385us; |]
+let _fsyacc_immediateActions = [|65535us; 49152us; |]
 let _fsyacc_reductions ()  =    [| 
 # 325 "TigerParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
@@ -336,10 +336,10 @@ let _fsyacc_reductions ()  =    [|
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 24 "Tiger.fsp"
-                                                            
+# 23 "Tiger.fsp"
+                                                              "returning a string for now" 
                    )
-# 24 "Tiger.fsp"
+# 23 "Tiger.fsp"
                  : string));
 |]
 # 345 "TigerParser.fs"
