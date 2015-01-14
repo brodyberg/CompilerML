@@ -58,8 +58,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="TigerParser.fs" />
     <Compile Include="TigerParser.fsi" />
+    <Compile Include="TigerParser.fs" />
     <Compile Include="TigerLexer.fs" />
     <Compile Include="TigerAST.fs" />
     <Compile Include="Tiger.fs" />
