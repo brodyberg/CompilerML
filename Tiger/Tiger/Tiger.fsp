@@ -8,7 +8,7 @@ open Tiger
 %token <string> StringLiteral
 %token <string> Comment
 
-%token Equal Less LessEqual Greater GreaterEqual Assign Plus Minus Divide Multiply Exponent And Or
+%token EQUAL LESS LessEqual Greater GreaterEqual Assign Plus Minus Divide Multiply Exponent And Or
 %token INT ARRAY TYPE IF THEN ELSE FOR TO DO WHILE FUNCTION LET IN NIL VAR OF END
 %token LBracket RBracket LParen RParen Period Colon SemiColon Comma
 %token EOF
