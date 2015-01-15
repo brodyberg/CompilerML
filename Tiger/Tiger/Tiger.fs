@@ -1,7 +1,7 @@
 namespace Tiger
 
-module AST =
-    let x = 1
+type Statement = 
+    | Number of int
 
-// This file is referenced by the parser
-// and so must be where we put the AST
+type AST = 
+    | Let of Statement list

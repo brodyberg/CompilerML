@@ -14,10 +14,10 @@ open Tiger
 %token EOF
 
 %start start
-%type <string> start   
+%type <Tiger.AST> start   
 
 %%   
 
 start:   
-                                       { "returning a string for now" }
+                                       { Tiger.Let([Tiger.Number(1);Tiger.Number(2);Tiger.Number(3);]) }
 %%

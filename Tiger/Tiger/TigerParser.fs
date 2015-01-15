@@ -324,7 +324,7 @@ let _fsyacc_immediateActions = [|65535us; 49152us; |]
 let _fsyacc_reductions ()  =    [| 
 # 325 "TigerParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
-            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : string)) in
+            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : Tiger.AST)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
@@ -337,10 +337,10 @@ let _fsyacc_reductions ()  =    [|
                 (
                    (
 # 22 "Tiger.fsp"
-                                                              "returning a string for now" 
+                                                              Tiger.Let([Tiger.Number(1);Tiger.Number(2);Tiger.Number(3);]) 
                    )
 # 22 "Tiger.fsp"
-                 : string));
+                 : Tiger.AST));
 |]
 # 345 "TigerParser.fs"
 let tables () : Microsoft.FSharp.Text.Parsing.Tables<_> = 
@@ -364,5 +364,5 @@ let tables () : Microsoft.FSharp.Text.Parsing.Tables<_> =
     numTerminals = 47;
     productionToNonTerminalTable = _fsyacc_productionToNonTerminalTable  }
 let engine lexer lexbuf startState = (tables ()).Interpret(lexer, lexbuf, startState)
-let start lexer lexbuf : string =
+let start lexer lexbuf : Tiger.AST =
     Microsoft.FSharp.Core.Operators.unbox ((tables ()).Interpret(lexer, lexbuf, 0))

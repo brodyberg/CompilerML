@@ -58,11 +58,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="Tiger.fs" />
     <Compile Include="TigerParser.fsi" />
     <Compile Include="TigerParser.fs" />
     <Compile Include="TigerLexer.fs" />
     <Compile Include="TigerAST.fs" />
-    <Compile Include="Tiger.fs" />
     <Compile Include="UseLexer.fsx" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\3.1\Framework\v4.0\Microsoft.FSharp.Targets" />
