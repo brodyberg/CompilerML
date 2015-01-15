@@ -16,6 +16,13 @@ let tokenize str =
 
     _tokenize lexbuf
 
+let buffer = Lexing.LexBuffer<_>.FromString "foo function bar"
+TigerLexer.tokenize buffer
+
+// above not to be confused with: 
+TigerLexer.tokenize (Lexing.LexBuffer<_>.FromString "foo function bar")
+// which will always return "ID \"foo\""
+
 let bar = TigerLexer.tokenize (Lexing.LexBuffer<_>.FromString "foo")
 
 let theFile = File.ReadAllText "/Users/brodyberg/code/CompilerML/Tiger/Tiger/Examples/queens.tig"
