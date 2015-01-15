@@ -1,21 +1,16 @@
-﻿#I "/Users/brodyberg/code/CompilerML/Tiger/packages/FSPowerPack.Core.Community.3.0.0.0/Lib/Net40"
-#I "/Users/brodyberg/code/CompilerML/Tiger/Tiger"
+﻿#I @"/Users/brodyberg/code/CompilerML/Tiger/Tiger/bin/Debug"
+
+#r "Tiger.dll"
 #r "FSharp.PowerPack.dll"
 
+open TigerLexer
 open System.IO
-open Microsoft.FSharp.Text.Lexing
-// should go away and be replaced by TigerParser.fs #load "TigerAST.fs" 
-// or even go away entirely and have the open TigerParser happen in the 
-// Tiger.fsl file itself (finally) 
-
-#load "TigerParser.fs"
-#load "TigerLexer.fs"
 
 let tokenize str =
     
-    let lexbuf = LexBuffer<_>.FromString str    
+    let lexbuf = Lexing.LexBuffer<_>.FromString str    
 
-    let _tokenize (lexbuf:LexBuffer<char>) = 
+    let _tokenize (lexbuf:Lexing.LexBuffer<char>) = 
         while not lexbuf.IsPastEndOfStream do          
             printfn "%A" (TigerLexer.tokenize lexbuf)
 
@@ -28,6 +23,10 @@ theFile |> tokenize
 let fooTig = File.ReadAllText "/Users/brodyberg/code/CompilerML/Tiger/Tiger/Examples/escapeSequence.tig"
 fooTig
 fooTig |> tokenize
+// StringLiteral "\foo"
+// StringLiteral "\n"
+// EOF
+// val it : unit = ()
 
 "foo" |> tokenize
 //ID "foo"
@@ -44,14 +43,12 @@ fooTig |> tokenize
 
 "foo \"bar\" baz" |> tokenize
 //ID "foo"
-//FOUND: "bar"
 //StringLiteral "bar"
 //ID "baz"
 //EOF
 
 "foo \"\" baz" |> tokenize
 //ID "foo"
-//FOUND: ""
 //StringLiteral ""
 //ID "baz"
 //EOF
@@ -60,18 +57,8 @@ fooTig |> tokenize
 " -4.4" |> tokenize
 
 "N-1" |> tokenize
-// fail: 
-//ID "N-1"
-//EOF
-
-// closer, but fail still: 
 //ID "N"
-//Int -1
-//EOF
-
-// booyah!
-//ID "N"
-//BinaryOperator Minus
+//Minus
 //Int 1
 //EOF
 //val it : unit = ()
@@ -81,7 +68,7 @@ fooTig |> tokenize
 //EOF
 
 "-5" |> tokenize
-//BinaryOperator Minus
+//Minus
 //Int 5
 //EOF
 " -5" |> tokenize
@@ -89,99 +76,58 @@ fooTig |> tokenize
 //EOF
 
 "," |> tokenize
- 
-//lexbuf: Microsoft.FSharp.Text.Lexing.LexBuffer`1[System.Char]
 //Comma
-//lexbuf: Microsoft.FSharp.Text.Lexing.LexBuffer`1[System.Char]
 //EOF
 //val it : unit = ()
 
 "+" |> tokenize
-
-//lexeme: []
-//BinaryOperator Plus
-//lexeme: [+]
+//Plus
 //EOF
 //val it : unit = ()
 
 "*" |> tokenize
-
-//lexeme: []
-//BinaryOperator Multiply
-//lexeme: [*]
+//Multiply
 //EOF
 //val it : unit = ()
 
 "/" |> tokenize
-
-//lexeme: []
-//BinaryOperator Divide
-//lexeme: [/]
+//Divide
 //EOF
 //val it : unit = ()
 
 "/*" |> tokenize
-
-//lexeme: []
-//CommentStart
-//lexeme: [/*]
-//EOF
-//val it : unit = ()
+// TigerLexer+EndOfFile: Exception of type 'TigerLexer+EndOfFile' was thrown.
 
 "brody" |> tokenize
-
-//lexeme: []
 //ID "brody"
-//lexeme: [brody]
 //EOF
 //val it : unit = ()
 
 "function" |> tokenize
-
-//lexeme: []
-//Keyword FUNCTION
-//lexeme: [function]
+//FUNCTION
 //EOF
 //val it : unit = ()
 
 "/* foo bar baz */" |> tokenize
-
-//lexeme: []
 //Comments start
-//Comments (0) end
 //EOF
 //val it : unit = ()
 
 "function /* foo bar baz */" |> tokenize
-
-//lexeme: []
-//Keyword FUNCTION
-//lexeme: [function]
+//FUNCTION
 //Comments start
-//Comments (0) end
 //EOF
 //val it : unit = ()
 
 "function /* foo bar baz */ array" |> tokenize
-
-//lexeme: []
-//Keyword FUNCTION
-//lexeme: [function]
+//FUNCTION
 //Comments start
-//Comments (0) end
-//Keyword ARRAY
-//lexeme: [array]
+//ARRAY
 //EOF
 //val it : unit = ()
 
 "/* foo /*bar */baz */ array" |> tokenize
-
-//lexeme: []
 //Comments start
-//comments (1) start
-//Comments (1) end
-//Comments (0) end
-//Keyword ARRAY
-//lexeme: [array]
+//ARRAY
 //EOF
 //val it : unit = ()
