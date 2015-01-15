@@ -2,14 +2,14 @@
 module TigerParser
 type token = 
   | EOF
-  | LBracket
-  | RBracket
-  | LParen
-  | RParen
-  | Period
-  | Colon
-  | SemiColon
-  | Comma
+  | LBRACKET
+  | RBRACKET
+  | LPAREN
+  | RPAREN
+  | PERIOD
+  | COLON
+  | SEMICOLON
+  | COMMA
   | INT
   | ARRAY
   | TYPE
@@ -29,17 +29,17 @@ type token =
   | END
   | EQUAL
   | LESS
-  | LessEqual
-  | Greater
-  | GreaterEqual
-  | Assign
-  | Plus
-  | Minus
-  | Divide
-  | Multiply
-  | Exponent
-  | And
-  | Or
+  | LESSEQUAL
+  | GREATER
+  | GREATEREQUAL
+  | ASSIGN
+  | PLUS
+  | MINUS
+  | DIVIDE
+  | MULTIPLY
+  | EXPONENT
+  | AND
+  | OR
   | Comment of (string)
   | StringLiteral of (string)
   | Float of (float)
@@ -47,14 +47,14 @@ type token =
   | ID of (string)
 type tokenId = 
     | TOKEN_EOF
-    | TOKEN_LBracket
-    | TOKEN_RBracket
-    | TOKEN_LParen
-    | TOKEN_RParen
-    | TOKEN_Period
-    | TOKEN_Colon
-    | TOKEN_SemiColon
-    | TOKEN_Comma
+    | TOKEN_LBRACKET
+    | TOKEN_RBRACKET
+    | TOKEN_LPAREN
+    | TOKEN_RPAREN
+    | TOKEN_PERIOD
+    | TOKEN_COLON
+    | TOKEN_SEMICOLON
+    | TOKEN_COMMA
     | TOKEN_INT
     | TOKEN_ARRAY
     | TOKEN_TYPE
@@ -74,17 +74,17 @@ type tokenId =
     | TOKEN_END
     | TOKEN_EQUAL
     | TOKEN_LESS
-    | TOKEN_LessEqual
-    | TOKEN_Greater
-    | TOKEN_GreaterEqual
-    | TOKEN_Assign
-    | TOKEN_Plus
-    | TOKEN_Minus
-    | TOKEN_Divide
-    | TOKEN_Multiply
-    | TOKEN_Exponent
-    | TOKEN_And
-    | TOKEN_Or
+    | TOKEN_LESSEQUAL
+    | TOKEN_GREATER
+    | TOKEN_GREATEREQUAL
+    | TOKEN_ASSIGN
+    | TOKEN_PLUS
+    | TOKEN_MINUS
+    | TOKEN_DIVIDE
+    | TOKEN_MULTIPLY
+    | TOKEN_EXPONENT
+    | TOKEN_AND
+    | TOKEN_OR
     | TOKEN_Comment
     | TOKEN_StringLiteral
     | TOKEN_Float

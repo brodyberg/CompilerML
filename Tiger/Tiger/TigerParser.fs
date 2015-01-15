@@ -11,14 +11,14 @@ open Tiger
 // This type is the type of tokens accepted by the parser
 type token = 
   | EOF
-  | LBracket
-  | RBracket
-  | LParen
-  | RParen
-  | Period
-  | Colon
-  | SemiColon
-  | Comma
+  | LBRACKET
+  | RBRACKET
+  | LPAREN
+  | RPAREN
+  | PERIOD
+  | COLON
+  | SEMICOLON
+  | COMMA
   | INT
   | ARRAY
   | TYPE
@@ -38,17 +38,17 @@ type token =
   | END
   | EQUAL
   | LESS
-  | LessEqual
-  | Greater
-  | GreaterEqual
-  | Assign
-  | Plus
-  | Minus
-  | Divide
-  | Multiply
-  | Exponent
-  | And
-  | Or
+  | LESSEQUAL
+  | GREATER
+  | GREATEREQUAL
+  | ASSIGN
+  | PLUS
+  | MINUS
+  | DIVIDE
+  | MULTIPLY
+  | EXPONENT
+  | AND
+  | OR
   | Comment of (string)
   | StringLiteral of (string)
   | Float of (float)
@@ -57,14 +57,14 @@ type token =
 // This type is used to give symbolic names to token indexes, useful for error messages
 type tokenId = 
     | TOKEN_EOF
-    | TOKEN_LBracket
-    | TOKEN_RBracket
-    | TOKEN_LParen
-    | TOKEN_RParen
-    | TOKEN_Period
-    | TOKEN_Colon
-    | TOKEN_SemiColon
-    | TOKEN_Comma
+    | TOKEN_LBRACKET
+    | TOKEN_RBRACKET
+    | TOKEN_LPAREN
+    | TOKEN_RPAREN
+    | TOKEN_PERIOD
+    | TOKEN_COLON
+    | TOKEN_SEMICOLON
+    | TOKEN_COMMA
     | TOKEN_INT
     | TOKEN_ARRAY
     | TOKEN_TYPE
@@ -84,17 +84,17 @@ type tokenId =
     | TOKEN_END
     | TOKEN_EQUAL
     | TOKEN_LESS
-    | TOKEN_LessEqual
-    | TOKEN_Greater
-    | TOKEN_GreaterEqual
-    | TOKEN_Assign
-    | TOKEN_Plus
-    | TOKEN_Minus
-    | TOKEN_Divide
-    | TOKEN_Multiply
-    | TOKEN_Exponent
-    | TOKEN_And
-    | TOKEN_Or
+    | TOKEN_LESSEQUAL
+    | TOKEN_GREATER
+    | TOKEN_GREATEREQUAL
+    | TOKEN_ASSIGN
+    | TOKEN_PLUS
+    | TOKEN_MINUS
+    | TOKEN_DIVIDE
+    | TOKEN_MULTIPLY
+    | TOKEN_EXPONENT
+    | TOKEN_AND
+    | TOKEN_OR
     | TOKEN_Comment
     | TOKEN_StringLiteral
     | TOKEN_Float
@@ -111,14 +111,14 @@ type nonTerminalId =
 let tagOfToken (t:token) = 
   match t with
   | EOF  -> 0 
-  | LBracket  -> 1 
-  | RBracket  -> 2 
-  | LParen  -> 3 
-  | RParen  -> 4 
-  | Period  -> 5 
-  | Colon  -> 6 
-  | SemiColon  -> 7 
-  | Comma  -> 8 
+  | LBRACKET  -> 1 
+  | RBRACKET  -> 2 
+  | LPAREN  -> 3 
+  | RPAREN  -> 4 
+  | PERIOD  -> 5 
+  | COLON  -> 6 
+  | SEMICOLON  -> 7 
+  | COMMA  -> 8 
   | INT  -> 9 
   | ARRAY  -> 10 
   | TYPE  -> 11 
@@ -138,17 +138,17 @@ let tagOfToken (t:token) =
   | END  -> 25 
   | EQUAL  -> 26 
   | LESS  -> 27 
-  | LessEqual  -> 28 
-  | Greater  -> 29 
-  | GreaterEqual  -> 30 
-  | Assign  -> 31 
-  | Plus  -> 32 
-  | Minus  -> 33 
-  | Divide  -> 34 
-  | Multiply  -> 35 
-  | Exponent  -> 36 
-  | And  -> 37 
-  | Or  -> 38 
+  | LESSEQUAL  -> 28 
+  | GREATER  -> 29 
+  | GREATEREQUAL  -> 30 
+  | ASSIGN  -> 31 
+  | PLUS  -> 32 
+  | MINUS  -> 33 
+  | DIVIDE  -> 34 
+  | MULTIPLY  -> 35 
+  | EXPONENT  -> 36 
+  | AND  -> 37 
+  | OR  -> 38 
   | Comment _ -> 39 
   | StringLiteral _ -> 40 
   | Float _ -> 41 
@@ -159,14 +159,14 @@ let tagOfToken (t:token) =
 let tokenTagToTokenId (tokenIdx:int) = 
   match tokenIdx with
   | 0 -> TOKEN_EOF 
-  | 1 -> TOKEN_LBracket 
-  | 2 -> TOKEN_RBracket 
-  | 3 -> TOKEN_LParen 
-  | 4 -> TOKEN_RParen 
-  | 5 -> TOKEN_Period 
-  | 6 -> TOKEN_Colon 
-  | 7 -> TOKEN_SemiColon 
-  | 8 -> TOKEN_Comma 
+  | 1 -> TOKEN_LBRACKET 
+  | 2 -> TOKEN_RBRACKET 
+  | 3 -> TOKEN_LPAREN 
+  | 4 -> TOKEN_RPAREN 
+  | 5 -> TOKEN_PERIOD 
+  | 6 -> TOKEN_COLON 
+  | 7 -> TOKEN_SEMICOLON 
+  | 8 -> TOKEN_COMMA 
   | 9 -> TOKEN_INT 
   | 10 -> TOKEN_ARRAY 
   | 11 -> TOKEN_TYPE 
@@ -186,17 +186,17 @@ let tokenTagToTokenId (tokenIdx:int) =
   | 25 -> TOKEN_END 
   | 26 -> TOKEN_EQUAL 
   | 27 -> TOKEN_LESS 
-  | 28 -> TOKEN_LessEqual 
-  | 29 -> TOKEN_Greater 
-  | 30 -> TOKEN_GreaterEqual 
-  | 31 -> TOKEN_Assign 
-  | 32 -> TOKEN_Plus 
-  | 33 -> TOKEN_Minus 
-  | 34 -> TOKEN_Divide 
-  | 35 -> TOKEN_Multiply 
-  | 36 -> TOKEN_Exponent 
-  | 37 -> TOKEN_And 
-  | 38 -> TOKEN_Or 
+  | 28 -> TOKEN_LESSEQUAL 
+  | 29 -> TOKEN_GREATER 
+  | 30 -> TOKEN_GREATEREQUAL 
+  | 31 -> TOKEN_ASSIGN 
+  | 32 -> TOKEN_PLUS 
+  | 33 -> TOKEN_MINUS 
+  | 34 -> TOKEN_DIVIDE 
+  | 35 -> TOKEN_MULTIPLY 
+  | 36 -> TOKEN_EXPONENT 
+  | 37 -> TOKEN_AND 
+  | 38 -> TOKEN_OR 
   | 39 -> TOKEN_Comment 
   | 40 -> TOKEN_StringLiteral 
   | 41 -> TOKEN_Float 
@@ -220,14 +220,14 @@ let _fsyacc_tagOfErrorTerminal = 44
 let token_to_string (t:token) = 
   match t with 
   | EOF  -> "EOF" 
-  | LBracket  -> "LBracket" 
-  | RBracket  -> "RBracket" 
-  | LParen  -> "LParen" 
-  | RParen  -> "RParen" 
-  | Period  -> "Period" 
-  | Colon  -> "Colon" 
-  | SemiColon  -> "SemiColon" 
-  | Comma  -> "Comma" 
+  | LBRACKET  -> "LBRACKET" 
+  | RBRACKET  -> "RBRACKET" 
+  | LPAREN  -> "LPAREN" 
+  | RPAREN  -> "RPAREN" 
+  | PERIOD  -> "PERIOD" 
+  | COLON  -> "COLON" 
+  | SEMICOLON  -> "SEMICOLON" 
+  | COMMA  -> "COMMA" 
   | INT  -> "INT" 
   | ARRAY  -> "ARRAY" 
   | TYPE  -> "TYPE" 
@@ -247,17 +247,17 @@ let token_to_string (t:token) =
   | END  -> "END" 
   | EQUAL  -> "EQUAL" 
   | LESS  -> "LESS" 
-  | LessEqual  -> "LessEqual" 
-  | Greater  -> "Greater" 
-  | GreaterEqual  -> "GreaterEqual" 
-  | Assign  -> "Assign" 
-  | Plus  -> "Plus" 
-  | Minus  -> "Minus" 
-  | Divide  -> "Divide" 
-  | Multiply  -> "Multiply" 
-  | Exponent  -> "Exponent" 
-  | And  -> "And" 
-  | Or  -> "Or" 
+  | LESSEQUAL  -> "LESSEQUAL" 
+  | GREATER  -> "GREATER" 
+  | GREATEREQUAL  -> "GREATEREQUAL" 
+  | ASSIGN  -> "ASSIGN" 
+  | PLUS  -> "PLUS" 
+  | MINUS  -> "MINUS" 
+  | DIVIDE  -> "DIVIDE" 
+  | MULTIPLY  -> "MULTIPLY" 
+  | EXPONENT  -> "EXPONENT" 
+  | AND  -> "AND" 
+  | OR  -> "OR" 
   | Comment _ -> "Comment" 
   | StringLiteral _ -> "StringLiteral" 
   | Float _ -> "Float" 
@@ -268,14 +268,14 @@ let token_to_string (t:token) =
 let _fsyacc_dataOfToken (t:token) = 
   match t with 
   | EOF  -> (null : System.Object) 
-  | LBracket  -> (null : System.Object) 
-  | RBracket  -> (null : System.Object) 
-  | LParen  -> (null : System.Object) 
-  | RParen  -> (null : System.Object) 
-  | Period  -> (null : System.Object) 
-  | Colon  -> (null : System.Object) 
-  | SemiColon  -> (null : System.Object) 
-  | Comma  -> (null : System.Object) 
+  | LBRACKET  -> (null : System.Object) 
+  | RBRACKET  -> (null : System.Object) 
+  | LPAREN  -> (null : System.Object) 
+  | RPAREN  -> (null : System.Object) 
+  | PERIOD  -> (null : System.Object) 
+  | COLON  -> (null : System.Object) 
+  | SEMICOLON  -> (null : System.Object) 
+  | COMMA  -> (null : System.Object) 
   | INT  -> (null : System.Object) 
   | ARRAY  -> (null : System.Object) 
   | TYPE  -> (null : System.Object) 
@@ -295,17 +295,17 @@ let _fsyacc_dataOfToken (t:token) =
   | END  -> (null : System.Object) 
   | EQUAL  -> (null : System.Object) 
   | LESS  -> (null : System.Object) 
-  | LessEqual  -> (null : System.Object) 
-  | Greater  -> (null : System.Object) 
-  | GreaterEqual  -> (null : System.Object) 
-  | Assign  -> (null : System.Object) 
-  | Plus  -> (null : System.Object) 
-  | Minus  -> (null : System.Object) 
-  | Divide  -> (null : System.Object) 
-  | Multiply  -> (null : System.Object) 
-  | Exponent  -> (null : System.Object) 
-  | And  -> (null : System.Object) 
-  | Or  -> (null : System.Object) 
+  | LESSEQUAL  -> (null : System.Object) 
+  | GREATER  -> (null : System.Object) 
+  | GREATEREQUAL  -> (null : System.Object) 
+  | ASSIGN  -> (null : System.Object) 
+  | PLUS  -> (null : System.Object) 
+  | MINUS  -> (null : System.Object) 
+  | DIVIDE  -> (null : System.Object) 
+  | MULTIPLY  -> (null : System.Object) 
+  | EXPONENT  -> (null : System.Object) 
+  | AND  -> (null : System.Object) 
+  | OR  -> (null : System.Object) 
   | Comment _fsyacc_x -> Microsoft.FSharp.Core.Operators.box _fsyacc_x 
   | StringLiteral _fsyacc_x -> Microsoft.FSharp.Core.Operators.box _fsyacc_x 
   | Float _fsyacc_x -> Microsoft.FSharp.Core.Operators.box _fsyacc_x 
@@ -336,10 +336,10 @@ let _fsyacc_reductions ()  =    [|
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 23 "Tiger.fsp"
+# 22 "Tiger.fsp"
                                                               "returning a string for now" 
                    )
-# 23 "Tiger.fsp"
+# 22 "Tiger.fsp"
                  : string));
 |]
 # 345 "TigerParser.fs"

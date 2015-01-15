@@ -13,29 +13,29 @@ let ops =
     [   
         "=",    EQUAL;   
         "<",    LESS;   
-        "<=",   LessEqual;   
-        ">",    Greater;   
-        ">=",   GreaterEqual;
-        ":=",   Assign;
-        "+",    Plus;
-        "-",    Minus;
-        "/",    Divide; 
-        "*",    Multiply;
-        "**",   Exponent; 
-        "&",    And;
-        "|",    Or; 
+        "<=",   LESSEQUAL;   
+        ">",    GREATER;   
+        ">=",   GREATEREQUAL;
+        ":=",   ASSIGN;
+        "+",    PLUS;
+        "-",    MINUS;
+        "/",    DIVIDE; 
+        "*",    MULTIPLY;
+        "**",   EXPONENT; 
+        "&",    AND;
+        "|",    OR; 
     ] |> Map.ofList   
 
 let punctuation = 
     [
-        "[", LBracket; 
-        "]", RBracket;
-        "(", LParen;
-        ")", RParen;
-        ".", Period; 
-        ":", Colon;
-        ";", SemiColon; 
-        ",", Comma
+        "[", LBRACKET; 
+        "]", RBRACKET;
+        "(", LPAREN;
+        ")", RPAREN;
+        ".", PERIOD; 
+        ":", COLON;
+        ";", SEMICOLON; 
+        ",", COMMA;
     ] |> Map.ofList   
 
 let keywords =   
@@ -93,16 +93,11 @@ rule tokenize = parse
 //    - We are returning the same tokens (INT, 
 //    FLOAT, COMMA and EOF) that we defined in TigerParser.fsp
 | newline       { lexbuf.EndPos <- lexbuf.EndPos.NextLine; tokenize lexbuf; }   
-// 'lexeme lexbuf' returns the string our parser matched
 | int           { Int(Int32.Parse(LexBuffer<_>.LexemeString lexbuf)) }   
 | float         { Float(Double.Parse(LexBuffer<_>.LexemeString lexbuf)) }   
-//| isPunctuation { TigerAST.PunctuationItem(punctuation.[LexBuffer<_>.LexemeString lexbuf]) }
 | isPunctuation { punctuation.[LexBuffer<_>.LexemeString lexbuf] }
-//| operator      { TigerAST.BinaryOperator(ops.[LexBuffer<_>.LexemeString lexbuf]) }  
 | operator      { ops.[LexBuffer<_>.LexemeString lexbuf] }  
-| "/*"          { printfn "Comments start"; 
-                  comments 0 lexbuf; 
-                }
+| "/*"          { comments 0 lexbuf; }
 | identifier    { match keywords.TryFind(LexBuffer<_>.LexemeString lexbuf) with   
                   | Some(token) -> token
                   | None -> ID(LexBuffer<_>.LexemeString lexbuf) 
@@ -110,7 +105,6 @@ rule tokenize = parse
 | stringLiteral { 
                   let quotedLiteral = LexBuffer<_>.LexemeString lexbuf
                   let unquotedLiteral = quotedLiteral.Substring(1, quotedLiteral.Length - 2)
-//                  TigerAST.StringLiteral unquotedLiteral }
                   StringLiteral unquotedLiteral }
 | _             { 
                   let item = LexBuffer<_>.LexemeString lexbuf
@@ -120,7 +114,6 @@ rule tokenize = parse
                   raise (UnknownItem(errorNotice))
                 } 
 // eof is a special marker used to identify the end of a string buffer input.
-//| eof           { TigerAST.EOF }
 | eof           { EOF }
 // The tokenize function will be converted into function which 
 // has a return type of SqlParser.token

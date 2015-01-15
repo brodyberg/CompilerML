@@ -14,29 +14,29 @@ let ops =
     [   
         "=",    EQUAL;   
         "<",    LESS;   
-        "<=",   LessEqual;   
-        ">",    Greater;   
-        ">=",   GreaterEqual;
-        ":=",   Assign;
-        "+",    Plus;
-        "-",    Minus;
-        "/",    Divide; 
-        "*",    Multiply;
-        "**",   Exponent; 
-        "&",    And;
-        "|",    Or; 
+        "<=",   LESSEQUAL;   
+        ">",    GREATER;   
+        ">=",   GREATEREQUAL;
+        ":=",   ASSIGN;
+        "+",    PLUS;
+        "-",    MINUS;
+        "/",    DIVIDE; 
+        "*",    MULTIPLY;
+        "**",   EXPONENT; 
+        "&",    AND;
+        "|",    OR; 
     ] |> Map.ofList   
 
 let punctuation = 
     [
-        "[", LBracket; 
-        "]", RBracket;
-        "(", LParen;
-        ")", RParen;
-        ".", Period; 
-        ":", Colon;
-        ";", SemiColon; 
-        ",", Comma
+        "[", LBRACKET; 
+        "]", RBRACKET;
+        "(", LPAREN;
+        ")", RPAREN;
+        ".", PERIOD; 
+        ":", COLON;
+        ";", SEMICOLON; 
+        ",", COMMA;
     ] |> Map.ofList   
 
 let keywords =   
@@ -171,98 +171,95 @@ and _fslex_tokenize  _fslex_state lexbuf =
 # 171 "TigerLexer.fs"
           )
   | 2 -> ( 
-# 97 "Tiger.fsl"
+# 96 "Tiger.fsl"
                                  Int(Int32.Parse(LexBuffer<_>.LexemeString lexbuf)) 
 # 176 "TigerLexer.fs"
           )
   | 3 -> ( 
-# 98 "Tiger.fsl"
+# 97 "Tiger.fsl"
                                  Float(Double.Parse(LexBuffer<_>.LexemeString lexbuf)) 
 # 181 "TigerLexer.fs"
           )
   | 4 -> ( 
-# 100 "Tiger.fsl"
+# 98 "Tiger.fsl"
                                  punctuation.[LexBuffer<_>.LexemeString lexbuf] 
 # 186 "TigerLexer.fs"
           )
   | 5 -> ( 
-# 102 "Tiger.fsl"
+# 99 "Tiger.fsl"
                                  ops.[LexBuffer<_>.LexemeString lexbuf] 
 # 191 "TigerLexer.fs"
           )
   | 6 -> ( 
-# 103 "Tiger.fsl"
-                                 printfn "Comments start"; 
+# 100 "Tiger.fsl"
                                  comments 0 lexbuf; 
-                               
-# 198 "TigerLexer.fs"
+# 196 "TigerLexer.fs"
           )
   | 7 -> ( 
-# 106 "Tiger.fsl"
+# 101 "Tiger.fsl"
                                  match keywords.TryFind(LexBuffer<_>.LexemeString lexbuf) with   
                                  | Some(token) -> token
                                  | None -> ID(LexBuffer<_>.LexemeString lexbuf) 
                                
-# 206 "TigerLexer.fs"
+# 204 "TigerLexer.fs"
           )
   | 8 -> ( 
-# 110 "Tiger.fsl"
+# 105 "Tiger.fsl"
                                  
                                  let quotedLiteral = LexBuffer<_>.LexemeString lexbuf
                                  let unquotedLiteral = quotedLiteral.Substring(1, quotedLiteral.Length - 2)
-               //                  TigerAST.StringLiteral unquotedLiteral }
                                  StringLiteral unquotedLiteral 
-# 215 "TigerLexer.fs"
+# 212 "TigerLexer.fs"
           )
   | 9 -> ( 
-# 115 "Tiger.fsl"
+# 109 "Tiger.fsl"
                                  
                                  let item = LexBuffer<_>.LexemeString lexbuf
                                  let errorNotice = sprintf "Unrecognized character [%s] at line %d column %d" item (lexbuf.EndPos.Line + 1) lexbuf.EndPos.Column
                                  printfn "%s" errorNotice
                                  raise (UnknownItem(errorNotice))
                                
-# 225 "TigerLexer.fs"
+# 222 "TigerLexer.fs"
           )
   | 10 -> ( 
-# 124 "Tiger.fsl"
+# 117 "Tiger.fsl"
                                  EOF 
-# 230 "TigerLexer.fs"
+# 227 "TigerLexer.fs"
           )
   | _ -> failwith "tokenize"
 (* Rule comments *)
 and _fslex_comments level _fslex_state lexbuf =
   match _fslex_tables.Interpret(_fslex_state,lexbuf) with
   | 0 -> ( 
-# 128 "Tiger.fsl"
+# 121 "Tiger.fsl"
                         
                            if level = 0 
                            then tokenize lexbuf
                            else comments (level-1) lexbuf
                        
-# 243 "TigerLexer.fs"
+# 240 "TigerLexer.fs"
           )
   | 1 -> ( 
-# 133 "Tiger.fsl"
+# 126 "Tiger.fsl"
                          
                            comments (level+1) lexbuf
                        
-# 250 "TigerLexer.fs"
+# 247 "TigerLexer.fs"
           )
   | 2 -> ( 
-# 136 "Tiger.fsl"
+# 129 "Tiger.fsl"
                          comments level lexbuf 
-# 255 "TigerLexer.fs"
+# 252 "TigerLexer.fs"
           )
   | 3 -> ( 
-# 137 "Tiger.fsl"
+# 130 "Tiger.fsl"
                          
                          raise (EndOfFile("Found end of file before end of comment."))
                        
-# 262 "TigerLexer.fs"
+# 259 "TigerLexer.fs"
           )
   | _ -> failwith "comments"
 
-# 139 "Tiger.fsl"
+# 132 "Tiger.fsl"
 
 # 3000000 "TigerLexer.fs"
