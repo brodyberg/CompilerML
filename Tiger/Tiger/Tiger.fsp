@@ -19,5 +19,10 @@ open Tiger
 %%   
 
 start:   
-                                       { Tiger.Let([Tiger.Number(1);Tiger.Number(2);Tiger.Number(3);]) }
+//    LET statementList EOF                { Tiger.Let([Tiger.Number(1);Tiger.Number(2);Tiger.Number(3);]) }
+    LET END EOF { }
+
+statementList: 
+    | ID   { [$1] }
+
 %%
