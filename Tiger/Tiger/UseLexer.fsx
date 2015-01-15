@@ -16,6 +16,8 @@ let tokenize str =
 
     _tokenize lexbuf
 
+let bar = TigerLexer.tokenize (Lexing.LexBuffer<_>.FromString "foo")
+
 let theFile = File.ReadAllText "/Users/brodyberg/code/CompilerML/Tiger/Tiger/Examples/queens.tig"
 theFile
 theFile |> tokenize
