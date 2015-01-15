@@ -23,3 +23,15 @@ module LexerTests =
         Assert.Throws<UnknownItem>
             (fun () -> tokenizeOne "#" |> ignore) 
         |> ignore
+
+    [<Test>]
+    let ``Tokenize newline``() = 
+        match tokenizeOne "\"\n\"" with
+        | StringLiteral(x) -> Assert.Pass()
+        | other -> Assert.Fail(sprintf "Fail, found: %A" other)
+
+    [<Test>]
+    let ``Function keyword tokenizes``() =
+        match tokenizeOne "function" with 
+        | FUNCTION -> Assert.Pass()
+        | other -> Assert.Fail(sprintf "Fail, found: %A" other)
