@@ -4,20 +4,22 @@ open System
 open NUnit.Framework
 
 open TigerLexer
+open TigerParser
 
 [<TestFixture>]
 module LexerTests = 
 
-    let tokenize str =
-        
-        let lexbuf = Lexing.LexBuffer<_>.FromString str    
-    
-        let _tokenize (lexbuf:Lexing.LexBuffer<char>) = 
-            while not lexbuf.IsPastEndOfStream do          
-                printfn "%A" (TigerLexer.tokenize lexbuf)
-    
-        _tokenize lexbuf
+    let tokenizeOne (str:string) =
+        TigerLexer.tokenize (Lexing.LexBuffer<_>.FromString str)    
 
     [<Test>]
-    let ``Tokenize simple Id``() = 
-        Assert.AreEqual("ID foo", "foo" |> tokenize)        
+    let ``Tokenize Id``() = 
+        match tokenizeOne "foo" with
+        | ID(x) -> Assert.Pass()
+        | _ -> Assert.Fail()
+
+    [<Test>]
+    let ``Tokenize unknown character throws``() = 
+        Assert.Throws<UnknownItem>
+            (fun () -> tokenizeOne "#" |> ignore) 
+        |> ignore
