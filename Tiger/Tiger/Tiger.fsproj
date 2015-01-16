@@ -63,13 +63,13 @@
     <Compile Include="TigerParser.fs" />
     <Compile Include="TigerLexer.fs" />
     <Compile Include="TigerAST.fs" />
-    <Compile Include="UseLexer.fsx" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\3.1\Framework\v4.0\Microsoft.FSharp.Targets" />
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="UseParser.fsx" />
     <None Include="Tiger.fsl" />
+    <None Include="UseLexer.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Tiger.fsp" />

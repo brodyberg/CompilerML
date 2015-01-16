@@ -106,6 +106,7 @@ type tokenId =
 type nonTerminalId = 
     | NONTERM__startstart
     | NONTERM_start
+    | NONTERM_statementList
 
 // This function maps tokens to integers indexes
 let tagOfToken (t:token) = 
@@ -211,6 +212,7 @@ let prodIdxToNonTerminal (prodIdx:int) =
   match prodIdx with
     | 0 -> NONTERM__startstart 
     | 1 -> NONTERM_start 
+    | 2 -> NONTERM_statementList 
     | _ -> failwith "prodIdxToNonTerminal: bad production index"
 
 let _fsyacc_endOfInputTag = 46 
@@ -311,38 +313,49 @@ let _fsyacc_dataOfToken (t:token) =
   | Float _fsyacc_x -> Microsoft.FSharp.Core.Operators.box _fsyacc_x 
   | Int _fsyacc_x -> Microsoft.FSharp.Core.Operators.box _fsyacc_x 
   | ID _fsyacc_x -> Microsoft.FSharp.Core.Operators.box _fsyacc_x 
-let _fsyacc_gotos = [| 0us; 65535us; 1us; 65535us; 0us; 1us; |]
-let _fsyacc_sparseGotoTableRowOffsets = [|0us; 1us; |]
-let _fsyacc_stateToProdIdxsTableElements = [| 1us; 0us; 1us; 0us; |]
-let _fsyacc_stateToProdIdxsTableRowOffsets = [|0us; 2us; |]
-let _fsyacc_action_rows = 2
-let _fsyacc_actionTableElements = [|0us; 16385us; 0us; 49152us; |]
-let _fsyacc_actionTableRowOffsets = [|0us; 1us; |]
-let _fsyacc_reductionSymbolCounts = [|1us; 0us; |]
-let _fsyacc_productionToNonTerminalTable = [|0us; 1us; |]
-let _fsyacc_immediateActions = [|65535us; 49152us; |]
+let _fsyacc_gotos = [| 0us; 65535us; 1us; 65535us; 0us; 1us; 1us; 65535us; 2us; 3us; |]
+let _fsyacc_sparseGotoTableRowOffsets = [|0us; 1us; 3us; |]
+let _fsyacc_stateToProdIdxsTableElements = [| 1us; 0us; 1us; 0us; 1us; 1us; 1us; 1us; 1us; 1us; 1us; 1us; |]
+let _fsyacc_stateToProdIdxsTableRowOffsets = [|0us; 2us; 4us; 6us; 8us; 10us; |]
+let _fsyacc_action_rows = 6
+let _fsyacc_actionTableElements = [|1us; 32768us; 20us; 2us; 0us; 49152us; 0us; 16386us; 1us; 32768us; 25us; 4us; 1us; 32768us; 0us; 5us; 0us; 16385us; |]
+let _fsyacc_actionTableRowOffsets = [|0us; 2us; 3us; 4us; 6us; 8us; |]
+let _fsyacc_reductionSymbolCounts = [|1us; 4us; 0us; |]
+let _fsyacc_productionToNonTerminalTable = [|0us; 1us; 2us; |]
+let _fsyacc_immediateActions = [|65535us; 49152us; 65535us; 65535us; 65535us; 16385us; |]
 let _fsyacc_reductions ()  =    [| 
-# 325 "TigerParser.fs"
+# 327 "TigerParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
-            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : Tiger.AST)) in
+            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : Tiger.Program)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
                       raise (Microsoft.FSharp.Text.Parsing.Accept(Microsoft.FSharp.Core.Operators.box _1))
                    )
                  : '_startstart));
-# 334 "TigerParser.fs"
+# 336 "TigerParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
+            let _2 = (let data = parseState.GetInput(2) in (Microsoft.FSharp.Core.Operators.unbox data : 'statementList)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
 # 22 "Tiger.fsp"
-                                                              Tiger.Let([Tiger.Number(1);Tiger.Number(2);Tiger.Number(3);]) 
+                                                     Tiger.Let(_2) 
                    )
 # 22 "Tiger.fsp"
-                 : Tiger.AST));
+                 : Tiger.Program));
+# 347 "TigerParser.fs"
+        (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
+            Microsoft.FSharp.Core.Operators.box
+                (
+                   (
+# 25 "Tiger.fsp"
+                             [] 
+                   )
+# 25 "Tiger.fsp"
+                 : 'statementList));
 |]
-# 345 "TigerParser.fs"
+# 358 "TigerParser.fs"
 let tables () : Microsoft.FSharp.Text.Parsing.Tables<_> = 
   { reductions= _fsyacc_reductions ();
     endOfInputTag = _fsyacc_endOfInputTag;
@@ -364,5 +377,5 @@ let tables () : Microsoft.FSharp.Text.Parsing.Tables<_> =
     numTerminals = 47;
     productionToNonTerminalTable = _fsyacc_productionToNonTerminalTable  }
 let engine lexer lexbuf startState = (tables ()).Interpret(lexer, lexbuf, startState)
-let start lexer lexbuf : Tiger.AST =
+let start lexer lexbuf : Tiger.Program =
     Microsoft.FSharp.Core.Operators.unbox ((tables ()).Interpret(lexer, lexbuf, 0))

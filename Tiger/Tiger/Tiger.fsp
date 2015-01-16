@@ -14,15 +14,14 @@ open Tiger
 %token EOF
 
 %start start
-%type <Tiger.AST> start   
+%type <Tiger.Program> start   
 
 %%   
 
 start:   
-//    LET statementList EOF                { Tiger.Let([Tiger.Number(1);Tiger.Number(2);Tiger.Number(3);]) }
-    LET END EOF { }
+    LET statementList END EOF { Tiger.Let($2) }
 
 statementList: 
-    | ID   { [$1] }
+    | { [] }
 
 %%
