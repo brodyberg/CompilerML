@@ -36,13 +36,15 @@ namespace Tiger
 //    | Foo of string * string
 
 
-// program with statements
+
+type Op = 
+    | Assign
+
 type Statement = 
-    | Statement of string 
-
-
-//type AST = 
-//    | Let of Statement list
+    | Statement of string
+    | Var of string * int
+    | Number of int
+    | Special of string
 
 type Program = 
     | Let of Statement list

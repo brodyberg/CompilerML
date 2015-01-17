@@ -19,9 +19,36 @@ open Tiger
 %%   
 
 start:   
-    LET statementList END EOF { Tiger.Let($2) }
+    LET statementList END EOF { 
+                                 printfn "BRODY HERE"
+                                 printfn "BRODY HERE"
+
+                                 Tiger.Let($2) }
 
 statementList: 
-    | { [] }
+    |                     { [] }
+	| special           {
+                            printfn "SPECIAL"
+                            [ Tiger.Special("foo") ] 
+                        }
+    | Int               { 
+                            printfn "BRODY HERE"
+                            printfn "BRODY HERE"
+                            printfn "BRODY HERE"
+                            [ Tiger.Number(4) ] }
+    | value               { 
+                            printfn "BRODY HERE"
+                            [ Tiger.Number(4) ] }
+    | VAR ID ASSIGN value { [ Tiger.Var($2, $4) ] }
 
+special: 
+    | Float {
+                printfn "special inner"
+                4.55
+             }
+
+value:   
+    | INT                   { 4 }
+                              // System.Int32.Parse(Int($1).ToString()) }   
+ 
 %%
