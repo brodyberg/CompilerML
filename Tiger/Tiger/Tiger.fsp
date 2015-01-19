@@ -28,27 +28,29 @@ start:
 statementList: 
     |                     { [] }
 	| special           {
-                            printfn "SPECIAL"
-                            [ Tiger.Special("foo") ] 
+                            printfn "SPECIAL: %A" $1
+//                            [ Tiger.Special("foo") ] 
+                            [ Tiger.Special($1) ] 
                         }
     | Int               { 
-                            printfn "BRODY HERE"
-                            printfn "BRODY HERE"
                             printfn "BRODY HERE"
                             [ Tiger.Number(4) ] }
     | value               { 
                             printfn "BRODY HERE"
                             [ Tiger.Number(4) ] }
     | VAR ID ASSIGN value { [ Tiger.Var($2, $4) ] }
-
 special: 
     | Float {
-                printfn "special inner"
-                4.55
+                printfn "special inner: %A" $1
+                
+                Tiger.Float($1)
+                // $1
+                // or: ast.Float($1)?
+                // System.Double.Parse($1)
+                // 4.55
              }
-
 value:   
-    | INT                   { 4 }
+    | INT                   { 5 }
                               // System.Int32.Parse(Int($1).ToString()) }   
  
 %%

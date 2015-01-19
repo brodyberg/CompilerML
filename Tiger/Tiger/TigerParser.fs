@@ -373,78 +373,82 @@ let _fsyacc_reductions ()  =    [|
                    (
 # 30 "Tiger.fsp"
                                            
-                                                 printfn "SPECIAL"
-                                                 [ Tiger.Special("foo") ] 
+                                                 printfn "SPECIAL: %A" _1
+                     //                            [ Tiger.Special("foo") ] 
+                                                 [ Tiger.Special(_1) ] 
                                              
                    )
 # 30 "Tiger.fsp"
                  : 'statementList));
-# 382 "TigerParser.fs"
+# 383 "TigerParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : int)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 34 "Tiger.fsp"
+# 35 "Tiger.fsp"
                                                
-                                                 printfn "BRODY HERE"
-                                                 printfn "BRODY HERE"
                                                  printfn "BRODY HERE"
                                                  [ Tiger.Number(4) ] 
                    )
-# 34 "Tiger.fsp"
+# 35 "Tiger.fsp"
                  : 'statementList));
-# 397 "TigerParser.fs"
+# 396 "TigerParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'value)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 39 "Tiger.fsp"
+# 38 "Tiger.fsp"
                                                  
                                                  printfn "BRODY HERE"
                                                  [ Tiger.Number(4) ] 
                    )
-# 39 "Tiger.fsp"
+# 38 "Tiger.fsp"
                  : 'statementList));
-# 410 "TigerParser.fs"
+# 409 "TigerParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _2 = (let data = parseState.GetInput(2) in (Microsoft.FSharp.Core.Operators.unbox data : string)) in
             let _4 = (let data = parseState.GetInput(4) in (Microsoft.FSharp.Core.Operators.unbox data : 'value)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 42 "Tiger.fsp"
+# 41 "Tiger.fsp"
                                                  [ Tiger.Var(_2, _4) ] 
                    )
-# 42 "Tiger.fsp"
+# 41 "Tiger.fsp"
                  : 'statementList));
-# 422 "TigerParser.fs"
+# 421 "TigerParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : float)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 45 "Tiger.fsp"
+# 43 "Tiger.fsp"
                                   
-                                     printfn "special inner"
-                                     4.55
+                                     printfn "special inner: %A" _1
+                                     
+                                     Tiger.Float(_1)
+                                     // _1
+                                     // or: ast.Float(_1)?
+                                     // System.Double.Parse(_1)
+                                     // 4.55
                                   
                    )
-# 45 "Tiger.fsp"
+# 43 "Tiger.fsp"
                  : 'special));
-# 436 "TigerParser.fs"
+# 440 "TigerParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 51 "Tiger.fsp"
-                                                   4 
+# 53 "Tiger.fsp"
+                                                   5 
                    )
-# 51 "Tiger.fsp"
+# 53 "Tiger.fsp"
                  : 'value));
 |]
-# 447 "TigerParser.fs"
+# 451 "TigerParser.fs"
 let tables () : Microsoft.FSharp.Text.Parsing.Tables<_> = 
   { reductions= _fsyacc_reductions ();
     endOfInputTag = _fsyacc_endOfInputTag;

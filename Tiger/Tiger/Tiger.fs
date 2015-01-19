@@ -35,7 +35,8 @@ namespace Tiger
 //    | VarType of Label * Label // length, initialValue
 //    | Foo of string * string
 
-
+type Primitive = 
+    | Float of float
 
 type Op = 
     | Assign
@@ -44,7 +45,8 @@ type Statement =
     | Statement of string
     | Var of string * int
     | Number of int
-    | Special of string
+//    | Special of string
+    | Special of Primitive
 
 type Program = 
     | Let of Statement list
