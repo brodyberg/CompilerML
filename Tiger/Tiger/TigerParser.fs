@@ -218,9 +218,8 @@ let prodIdxToNonTerminal (prodIdx:int) =
     | 3 -> NONTERM_statementList 
     | 4 -> NONTERM_statementList 
     | 5 -> NONTERM_statementList 
-    | 6 -> NONTERM_statementList 
-    | 7 -> NONTERM_special 
-    | 8 -> NONTERM_value 
+    | 6 -> NONTERM_special 
+    | 7 -> NONTERM_value 
     | _ -> failwith "prodIdxToNonTerminal: bad production index"
 
 let _fsyacc_endOfInputTag = 46 
@@ -321,18 +320,18 @@ let _fsyacc_dataOfToken (t:token) =
   | Float _fsyacc_x -> Microsoft.FSharp.Core.Operators.box _fsyacc_x 
   | Int _fsyacc_x -> Microsoft.FSharp.Core.Operators.box _fsyacc_x 
   | ID _fsyacc_x -> Microsoft.FSharp.Core.Operators.box _fsyacc_x 
-let _fsyacc_gotos = [| 0us; 65535us; 1us; 65535us; 0us; 1us; 1us; 65535us; 2us; 3us; 1us; 65535us; 2us; 6us; 2us; 65535us; 2us; 8us; 11us; 12us; |]
+let _fsyacc_gotos = [| 0us; 65535us; 1us; 65535us; 0us; 1us; 1us; 65535us; 2us; 3us; 1us; 65535us; 2us; 6us; 1us; 65535us; 10us; 11us; |]
 let _fsyacc_sparseGotoTableRowOffsets = [|0us; 1us; 3us; 5us; 7us; |]
-let _fsyacc_stateToProdIdxsTableElements = [| 1us; 0us; 1us; 0us; 1us; 1us; 1us; 1us; 1us; 1us; 1us; 1us; 1us; 3us; 1us; 4us; 1us; 5us; 1us; 6us; 1us; 6us; 1us; 6us; 1us; 6us; 1us; 7us; 1us; 8us; |]
-let _fsyacc_stateToProdIdxsTableRowOffsets = [|0us; 2us; 4us; 6us; 8us; 10us; 12us; 14us; 16us; 18us; 20us; 22us; 24us; 26us; 28us; |]
-let _fsyacc_action_rows = 15
-let _fsyacc_actionTableElements = [|1us; 32768us; 20us; 2us; 0us; 49152us; 4us; 16386us; 9us; 14us; 23us; 9us; 41us; 13us; 42us; 7us; 1us; 32768us; 25us; 4us; 1us; 32768us; 0us; 5us; 0us; 16385us; 0us; 16387us; 0us; 16388us; 0us; 16389us; 1us; 32768us; 43us; 10us; 1us; 32768us; 31us; 11us; 1us; 32768us; 9us; 14us; 0us; 16390us; 0us; 16391us; 0us; 16392us; |]
-let _fsyacc_actionTableRowOffsets = [|0us; 2us; 3us; 8us; 10us; 12us; 13us; 14us; 15us; 16us; 18us; 20us; 22us; 23us; 24us; |]
-let _fsyacc_reductionSymbolCounts = [|1us; 4us; 0us; 1us; 1us; 1us; 4us; 1us; 1us; |]
-let _fsyacc_productionToNonTerminalTable = [|0us; 1us; 2us; 2us; 2us; 2us; 2us; 3us; 4us; |]
-let _fsyacc_immediateActions = [|65535us; 49152us; 65535us; 65535us; 65535us; 16385us; 16387us; 16388us; 16389us; 65535us; 65535us; 65535us; 16390us; 16391us; 16392us; |]
+let _fsyacc_stateToProdIdxsTableElements = [| 1us; 0us; 1us; 0us; 1us; 1us; 1us; 1us; 1us; 1us; 1us; 1us; 1us; 3us; 1us; 4us; 1us; 5us; 1us; 5us; 1us; 5us; 1us; 5us; 1us; 6us; 1us; 7us; |]
+let _fsyacc_stateToProdIdxsTableRowOffsets = [|0us; 2us; 4us; 6us; 8us; 10us; 12us; 14us; 16us; 18us; 20us; 22us; 24us; 26us; |]
+let _fsyacc_action_rows = 14
+let _fsyacc_actionTableElements = [|1us; 32768us; 20us; 2us; 0us; 49152us; 3us; 16386us; 23us; 8us; 41us; 12us; 42us; 7us; 1us; 32768us; 25us; 4us; 1us; 32768us; 0us; 5us; 0us; 16385us; 0us; 16387us; 0us; 16388us; 1us; 32768us; 43us; 9us; 1us; 32768us; 31us; 10us; 1us; 32768us; 9us; 13us; 0us; 16389us; 0us; 16390us; 0us; 16391us; |]
+let _fsyacc_actionTableRowOffsets = [|0us; 2us; 3us; 7us; 9us; 11us; 12us; 13us; 14us; 16us; 18us; 20us; 21us; 22us; |]
+let _fsyacc_reductionSymbolCounts = [|1us; 4us; 0us; 1us; 1us; 4us; 1us; 1us; |]
+let _fsyacc_productionToNonTerminalTable = [|0us; 1us; 2us; 2us; 2us; 2us; 3us; 4us; |]
+let _fsyacc_immediateActions = [|65535us; 49152us; 65535us; 65535us; 65535us; 16385us; 16387us; 16388us; 65535us; 65535us; 65535us; 16389us; 16390us; 16391us; |]
 let _fsyacc_reductions ()  =    [| 
-# 335 "TigerParser.fs"
+# 334 "TigerParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : Tiger.Program)) in
             Microsoft.FSharp.Core.Operators.box
@@ -341,7 +340,7 @@ let _fsyacc_reductions ()  =    [|
                       raise (Microsoft.FSharp.Text.Parsing.Accept(Microsoft.FSharp.Core.Operators.box _1))
                    )
                  : '_startstart));
-# 344 "TigerParser.fs"
+# 343 "TigerParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _2 = (let data = parseState.GetInput(2) in (Microsoft.FSharp.Core.Operators.unbox data : 'statementList)) in
             Microsoft.FSharp.Core.Operators.box
@@ -349,106 +348,91 @@ let _fsyacc_reductions ()  =    [|
                    (
 # 22 "Tiger.fsp"
                                                      
-                                                      printfn "BRODY HERE"
-                                                      printfn "BRODY HERE"
+                                                      printfn "LET: %A" _2
                                                       Tiger.Let(_2) 
                    )
 # 22 "Tiger.fsp"
                  : Tiger.Program));
-# 358 "TigerParser.fs"
+# 356 "TigerParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 29 "Tiger.fsp"
+# 28 "Tiger.fsp"
                                                  [] 
                    )
-# 29 "Tiger.fsp"
+# 28 "Tiger.fsp"
                  : 'statementList));
-# 368 "TigerParser.fs"
+# 366 "TigerParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'special)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 30 "Tiger.fsp"
+# 29 "Tiger.fsp"
                                            
                                                  printfn "SPECIAL: %A" _1
-                     //                            [ Tiger.Special("foo") ] 
                                                  [ Tiger.Special(_1) ] 
                                              
                    )
-# 30 "Tiger.fsp"
+# 29 "Tiger.fsp"
                  : 'statementList));
-# 383 "TigerParser.fs"
+# 380 "TigerParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : int)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 35 "Tiger.fsp"
+# 33 "Tiger.fsp"
                                                
-                                                 printfn "BRODY HERE"
-                                                 [ Tiger.Number(4) ] 
+                                                 printfn "Int: %A" _1
+                                                 [ Tiger.Number(_1) ]                        
+                                             
                    )
-# 35 "Tiger.fsp"
+# 33 "Tiger.fsp"
                  : 'statementList));
-# 396 "TigerParser.fs"
-        (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
-            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'value)) in
-            Microsoft.FSharp.Core.Operators.box
-                (
-                   (
-# 38 "Tiger.fsp"
-                                                 
-                                                 printfn "BRODY HERE"
-                                                 [ Tiger.Number(4) ] 
-                   )
-# 38 "Tiger.fsp"
-                 : 'statementList));
-# 409 "TigerParser.fs"
+# 394 "TigerParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _2 = (let data = parseState.GetInput(2) in (Microsoft.FSharp.Core.Operators.unbox data : string)) in
             let _4 = (let data = parseState.GetInput(4) in (Microsoft.FSharp.Core.Operators.unbox data : 'value)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 41 "Tiger.fsp"
+# 37 "Tiger.fsp"
+                                                 
+                                                 printfn "Var: id: %A value: %A" _2 _4
                                                  [ Tiger.Var(_2, _4) ] 
+                                               
                    )
-# 41 "Tiger.fsp"
+# 37 "Tiger.fsp"
                  : 'statementList));
-# 421 "TigerParser.fs"
+# 409 "TigerParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : float)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 43 "Tiger.fsp"
+# 42 "Tiger.fsp"
                                   
-                                     printfn "special inner: %A" _1
+                                     printfn "Float: %A" _1
                                      
                                      Tiger.Float(_1)
-                                     // _1
-                                     // or: ast.Float(_1)?
-                                     // System.Double.Parse(_1)
-                                     // 4.55
                                   
                    )
-# 43 "Tiger.fsp"
+# 42 "Tiger.fsp"
                  : 'special));
-# 440 "TigerParser.fs"
+# 424 "TigerParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 53 "Tiger.fsp"
+# 48 "Tiger.fsp"
                                                    5 
                    )
-# 53 "Tiger.fsp"
+# 48 "Tiger.fsp"
                  : 'value));
 |]
-# 451 "TigerParser.fs"
+# 435 "TigerParser.fs"
 let tables () : Microsoft.FSharp.Text.Parsing.Tables<_> = 
   { reductions= _fsyacc_reductions ();
     endOfInputTag = _fsyacc_endOfInputTag;

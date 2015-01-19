@@ -15,6 +15,8 @@ let parse (str:string) =
 
 "let 5 end" |> parse
 
+"let 17 end" |> parse
+
 "let 1.2345 end" |> parse
 
 "let var N := 0 end" |> parse
