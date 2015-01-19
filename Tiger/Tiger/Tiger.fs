@@ -40,13 +40,14 @@ type Primitive =
 
 type Op = 
     | Assign
+    | Plus
 
 type Statement = 
     | Statement of string
     | Var of string * int
     | Number of int
-//    | Special of string
     | Special of Primitive
+    | MathOp of int * Op * int
 
 type Program = 
     | Let of Statement list

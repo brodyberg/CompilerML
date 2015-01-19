@@ -30,14 +30,18 @@ statementList:
                             printfn "SPECIAL: %A" $1
                             [ Tiger.Special($1) ] 
                         }
-    | Int               { 
-                            printfn "Int: %A" $1
-                            [ Tiger.Number($1) ]                        
-                        }
+//    | Int               { 
+//                            printfn "Int: %A" $1
+//                           [ Tiger.Number($1) ]                        
+//                        }
     | VAR ID ASSIGN value { 
                             printfn "Var: id: %A value: %A" $2 $4
                             [ Tiger.Var($2, $4) ] 
                           }
+    | Int PLUS Int { 
+                     printfn "Plus: %A + %A" $1 $3
+                     [ Tiger.MathOp($1, Tiger.Op.Plus, $3) ] 
+                   }
 special: 
     | Float {
                 printfn "Float: %A" $1
