@@ -21,7 +21,7 @@
     </PlatformTarget>
     <CustomCommands>
       <CustomCommands>
-        <Command type="BeforeBuild" command="mono ../packages/FSPowerPack.Community.3.0.0.0/Tools/fsyacc.exe Tiger.fsp -o TigerParser.fs --module TigerParser" workingdir="${ProjectDir}" />
+        <Command type="BeforeBuild" command="mono ../../../FsLexYacc/bin/Debug/fsyacc.exe Tiger.fsp -o TigerParser.fs --module TigerParser -v --learning" workingdir="${ProjectDir}" />
         <Command type="BeforeBuild" command="mono ../packages/FSPowerPack.Community.3.0.0.0/Tools/fslex.exe Tiger.fsl -o TigerLexer.fs --unicode" workingdir="${ProjectDir}" />
       </CustomCommands>
     </CustomCommands>
